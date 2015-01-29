@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd"
+         bootstrap="bootstrap.inc.php">
+	<testsuites>
+		<testsuite name="qpm all">
+			<directory suffix="Test.php">.</directory>
+    		</testsuite>
+	</testsuites>
+</phpunit>
