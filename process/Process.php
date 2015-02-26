@@ -1,6 +1,5 @@
 <?php
 namespace qpm\process;
-require_once __DIR__.'/MainProcess.php';
 class Process {
 	/**
 	 * @var MainProcess
@@ -11,10 +10,15 @@ class Process {
 	 */
 	private $_pid;
 	/**
+	 * @var int
+	 */
+	private $_parentProcessId;
+	/**
 	 * @param int $pid
 	 */
-	protected function __construct($pid) {
+	protected function __construct($pid, $parentProcessId = null) {
 		$this->_pid = $pid;
+		$this->_parentProcessId = $parentProcessId;
 	}
 	/**
 	 * @return Process
@@ -28,19 +32,34 @@ class Process {
 	public static function current() {
 		$pid = \posix_getpid();
 		if (!self::$_current || !self::$_current->isCurrent()) {
-			self::$_current = new MainProcess($pid);
+			require_once __DIR__.'/MainProcess.php';
+			self::$_current = new MainProcess($pid, \posix_getppid());
 		}
 		return self::$_current;
 	}
 	/**
 	 * @return qpm\process\Process
 	 * returns null on failure
+	 * It cannot be realtime in some cases.
+	 * e.g. 
+	 * 	$child = Process::current()->folkByCallable($fun);
+	 *  echo $child->getParent()->getPid();
+	 * If child process changed the parent, you would get the old parent ID.
 	 */
 	public function getParent() {
-		$ppid = \posix_getppid();
-		if (!$ppid) return null;
-		return self::process($ppid);
-	}	
+		if ($this->_parentProcessId) {
+			return self::process($this->_parentProcessId);
+		}
+		
+		if ($this->isCurrent()) {
+			$ppid = \posix_getppid();
+			if (!$ppid) return null;
+			return self::process($ppid);
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * @return int
 	 */
@@ -52,7 +71,7 @@ class Process {
 	 * @return boolean
 	 */
 	public function isCurrent() {
-		return posix_getpid() == $this->_pid;
+		return \posix_getpid() == $this->_pid;
 	}
 	/**
 	 * @throw FailToSendSignalException

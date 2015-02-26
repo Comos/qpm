@@ -1,4 +1,4 @@
 <?php
-namespace qpm/process;
+namespace qpm\process;
 class FailToForkException extends \RuntimeException {
 }

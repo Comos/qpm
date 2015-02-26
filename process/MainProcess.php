@@ -25,7 +25,9 @@ class MainProcess extends Process {
 			require_once __DIR__.'/FailToForkException.php';
 			throw new FailToForkException('the instance does not represent current main process.');
 		}
+		
 		$pid = \pcntl_fork();
+		
 		if ($pid == -1) {
 			require_once __DIR__.'/FailToForkException.php';
 			throw new FailToForkException('fail to folk.');
@@ -45,7 +47,7 @@ class MainProcess extends Process {
 			exit($code);
 		}
 		
-		return new ChildProcess($pid);
+		return new ChildProcess($pid, $this->getPid());
 	}
 	/**
 	 * @throws qpm\process\Exception
