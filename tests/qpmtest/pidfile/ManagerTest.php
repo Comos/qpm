@@ -1,5 +1,5 @@
 <?php
-namespace qpm\_test\pidfile;
+namespace qpmtest\pidfile;
 require_once 'qpm/pidfile/Manager.php';
 require_once 'qpm/process/Process.php';
 use qpm\pidfile\Manager;

@@ -1,5 +1,5 @@
 <?php
-namespace qpm\_test\supervisor;
+namespace qpmtest\supervisor;
 require_once 'qpm/supervisor/OneForOneKeeper.php';
 require_once 'qpm/process/Runnable.php';
 require_once 'qpm/supervisor/Config.php';

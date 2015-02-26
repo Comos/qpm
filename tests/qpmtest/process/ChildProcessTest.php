@@ -1,10 +1,9 @@
 <?php
-namespace qpm\_tests\process;
+namespace qpmtest\process;
 require_once 'qpm/process/Process.php';
-require_once 'qpm/_tests/BaseTestCaseWithLogFile.php';
 use qpm\process\Process;
 use qpm\process\ChildProcess;
-class ChildProcessTest extends \qpm\_tests\BaseTestCaseWithLogFile {
+class ChildProcessTest extends \PHPUnit_Framework_TestCase {
 	public function testProcessFork() {
 		$child = Process::current()->forkByCallable(function() {exit;});
 		$this->assertTrue($child instanceof ChildProcess);

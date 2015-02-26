@@ -1,5 +1,5 @@
 <?php
-namespace qpm\_test\log;
+namespace qpmtest\log;
 require_once 'qpm/log/Logger.php';
 use qpm\log\Logger;
 

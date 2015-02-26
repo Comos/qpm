@@ -1,0 +1,3 @@
+All examples can be executed as PHP CLI scripts.
+e.g.
+# php folk_by_callable.php 

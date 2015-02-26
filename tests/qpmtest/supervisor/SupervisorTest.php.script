@@ -1,6 +1,6 @@
 <?php
-namespace qpm\_tests\supervisor;
-require_once __DIR__.'/../bootstrap.inc.php';
+namespace qpmtest\supervisor;
+require_once dirname(__DIR__).'/bootstrap.inc.php';
 require_once 'qpm/supervisor/Supervisor.php';
 require_once 'qpm/process/Process.php';
 use qpm\supervisor\Supervisor;
@@ -12,8 +12,8 @@ $configs = [
 	['runnableCallback' => function()use($file){file_put_contents($file, 1, FILE_APPEND);usleep(1000*1000);}],
 	['runnableCallback' => 
 		function() use ($file1){
-			usleep(1000*500);
 			file_put_contents($file1, '2', FILE_APPEND);
+			usleep(1000*500);
 		},
 	 'quantity' => 2,]
 ];

@@ -1,5 +1,5 @@
 <?php
-namespace qpm\_test\supervisor;
+namespace qpmtest\supervisor;
 require_once 'qpm/supervisor/KeeperRestartPolicy.php';
 use \qpm\supervisor\KeeperRestartPolicy;
 

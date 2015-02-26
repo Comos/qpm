@@ -7,7 +7,8 @@ master
  |_worker
 
  */
-require_once __DIR__.'/../process/Process.php';
+require __DIR__.'/bootstrap.inc.php';
+require_once 'qpm/process/Process.php';
 use qpm\process\Process as Process;
 
 //启动Daemon

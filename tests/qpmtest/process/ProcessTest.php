@@ -1,5 +1,5 @@
 <?php
-namespace qpm\_test\process;
+namespace qpmtest\process;
 require_once 'qpm/process/Process.php';
 require_once 'qpm/process/Runnable.php';
 use \qpm\process\Process;

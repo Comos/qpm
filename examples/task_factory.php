@@ -1,5 +1,5 @@
 <?php
-set_include_path(__DIR__.'/../../'.PATH_SEPARATOR.get_include_path());
+require __DIR__.'/bootstrap.inc.php';
 require_once 'qpm/supervisor/Supervisor.php';
 require_once 'qpm/process/Runnable.php';
 require_once 'qpm/log/Logger.php';
