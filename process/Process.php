@@ -26,13 +26,21 @@ class Process {
 	 * @return MainProcess
 	 */
 	public static function current() {
-		$pid = posix_getpid();
+		$pid = \posix_getpid();
 		if (!self::$_current || !self::$_current->isCurrent()) {
 			self::$_current = new MainProcess($pid);
 		}
 		return self::$_current;
 	}
-	
+	/**
+	 * @return qpm\process\Process
+	 * returns null on failure
+	 */
+	public function getParent() {
+		$ppid = \posix_getppid();
+		if (!$ppid) return null;
+		return self::process($ppid);
+	}	
 	/**
 	 * @return int
 	 */
