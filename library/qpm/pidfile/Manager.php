@@ -38,7 +38,7 @@ class Manager {
  private function _checkAndGetPid() {
 	$pidInFile = $this->_getPidFromFile();
 	if ($this->_processExists($pidInFile)) {
-		throw new \qpm\pidfile\Exception('process exists, no need start a new one');
+		throw new \qpm\pidfile\Exception('process exists, no need to start a new one');
 	}
 	return $pidInFile;
  }
