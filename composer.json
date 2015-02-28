@@ -1,0 +1,27 @@
+{
+    "name": "Comos/qpm",
+    "description": "Quick process management framework for PHP. To simplify PHP daemon development ",
+    "keywords": ["process", "daemon"],
+    "homepage": "http://github.com/Comos/qpm",
+    "type": "library",
+    "license": "GPL-v3",
+    "authors": [
+        {
+            "name": "Alex Chao",
+            "email": "alex.q.chao@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {"qpm\\": "library/qpm"}
+    },
+    "provide": {
+    }
+}
