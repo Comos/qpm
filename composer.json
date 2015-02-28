@@ -1,5 +1,5 @@
 {
-    "name": "comos/qpm",
+    "name": "Comos/qpm",
     "description": "Quick process management framework for PHP. To simplify PHP daemon development ",
     "keywords": ["process", "daemon"],
     "homepage": "http://github.com/Comos/qpm",
