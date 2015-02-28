@@ -2,7 +2,7 @@
 Quick process management framework for PHP
 
 QPM is a toolkit to simplify PHP multi-process programming.
-There're 4 mainly packages in qpm. They are <b>PROCESS</b>, <b>SUPERVISOR</b>, <B>PIDFILE</B> and <B>LOG</B>.
+There're four mainly packages in qpm. They are <b>PROCESS</b>, <b>SUPERVISOR</b>, <B>PIDFILE</B> and <B>LOG</B>.
 In examples you can find the several typical usages of QPM. In the tests directory, you can find the PHPUnit cases.
 
 Before using the qpm, you have to check out the branch and add the <b>library</b> directory to PHP include path.
