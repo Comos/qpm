@@ -23,5 +23,5 @@
         "psr-4": {"qpm\\": "library/qpm"}
     },
     "provide": {
-    },
+    }
 }
