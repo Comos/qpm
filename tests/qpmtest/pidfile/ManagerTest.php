@@ -51,7 +51,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 	}
 	/**
 	 * @expectedException \qpm\pidfile\Exception
-	 * @expectedExceptionMessage process exists, no need start a new one 
+	 * @expectedExceptionMessage process exists, no need to start a new one 
 	 */
 	public function testStart_Start2TimesWithOnePidFile() {
 		$man = new Manager($this->_pidFile);
@@ -83,7 +83,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals($pid, $process1->getPid());
 			$this->assertTrue(\pcntl_wifexited($st));
 			$this->assertTrue($e instanceof \qpm\pidfile\Exception);
-			$this->assertEquals('process exists, no need start a new one', $e->getMessage());
+			$this->assertEquals('process exists, no need to start a new one', $e->getMessage());
 		}
 	}
 }
