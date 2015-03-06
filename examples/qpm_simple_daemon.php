@@ -6,7 +6,7 @@ use qpm\process\Process as Process;
 //实际的工作内容
 function work() {
   while(true) {
-    file_put_contents(__FILE__'.log', date('Y-m-d H:i:s')."\n", FILE_APPEND);
+    file_put_contents(__FILE__.'.log', date('Y-m-d H:i:s')."\n", FILE_APPEND);
     sleep(10);
    };
 }
