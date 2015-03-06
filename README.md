@@ -1,3 +1,5 @@
+#QPM
+
 QPM全名是 Quick(or Q's) Process Management Framework for PHP.
 PHP 是强大的web开发语言，以至于大家常常忘记PHP 可以用来开发健壮的命令行（CLI）程序以至于daemon程序。
 而编写daemon程序免不了与各种进程管理打交道。QPM正式为简化进程管理而开发的类库。
