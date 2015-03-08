@@ -1,6 +1,5 @@
 <?php
 namespace qpm\supervisor;
-require_once __DIR__.'/KeeperRestartPolicy.php';
 /**
  *@example
  new Config([

@@ -1,2 +1,6 @@
 <?php
-set_include_path(dirname(__DIR__).DIRECTORY_SEPARATOR.'library'.PATH_SEPARATOR.get_include_path());
+/**
+ * @author bigbigant
+ * @date Mar 08
+ */
+require dirname(__DIR__).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';

@@ -10,7 +10,7 @@ class Logger {
 		if (!self::$_impl) return;
 		if ($msg instanceof \Exception) {
 			$context = ['exception'=>$msg];
-			$msg = ['EXCEPTION[{exception}]'];
+			$msg = 'EXCEPTION[{exception}]';
 		}
 		self::$_impl->error($msg, $context);
 	}
@@ -39,7 +39,6 @@ class Logger {
 	}
 
 	public static function useSimpleLogger($pathToLogFile) {
-		require_once(__DIR__.'/SimpleLogger.php');
 		$impl = new SimpleLogger($pathToLogFile);
 		self::setLoggerImpl($impl);
 	}

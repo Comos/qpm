@@ -1,6 +1,6 @@
 <?php
-namespace qpmtest\log;
-require_once 'qpm/log/Logger.php';
+namespace qpm\log;
+
 use qpm\log\Logger;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase {

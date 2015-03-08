@@ -1,6 +1,6 @@
 <?php
-namespace qpmtest\supervisor;
-require_once 'qpm/supervisor/KeeperRestartPolicy.php';
+namespace qpm\supervisor;
+
 use \qpm\supervisor\KeeperRestartPolicy;
 
 class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {

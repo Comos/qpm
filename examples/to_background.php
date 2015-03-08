@@ -1,6 +1,6 @@
 <?php
 require __DIR__.'/bootstrap.inc.php';
-require_once 'qpm/process/Process.php';
+
 $func = function() {
 	qpm\process\Process::current()->toBackground();
 	$current = qpm\process\Process::current();

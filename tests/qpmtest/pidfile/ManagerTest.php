@@ -1,7 +1,6 @@
 <?php
-namespace qpmtest\pidfile;
-require_once 'qpm/pidfile/Manager.php';
-require_once 'qpm/process/Process.php';
+namespace qpm\pidfile;
+
 use qpm\pidfile\Manager;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase {

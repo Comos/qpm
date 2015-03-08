@@ -1,9 +1,6 @@
 <?php
 use qpm\process\Runnable;
 require __DIR__.'/bootstrap.inc.php';
-require_once 'qpm/supervisor/Supervisor.php';
-require_once 'qpm/supervisor/StopSignal.php';
-require_once 'qpm/process/Runnable.php';
 
 /**
  * 任务工厂，必须实现 fetchTask方法。

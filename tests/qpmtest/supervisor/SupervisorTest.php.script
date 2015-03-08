@@ -1,8 +1,8 @@
 <?php
-namespace qpmtest\supervisor;
-require_once dirname(__DIR__).'/bootstrap.inc.php';
-require_once 'qpm/supervisor/Supervisor.php';
-require_once 'qpm/process/Process.php';
+namespace qpm\supervisor;
+
+require __DIR__.'/../../bootstrap.inc.php';
+
 use qpm\supervisor\Supervisor;
 use qpm\process\Process;
 

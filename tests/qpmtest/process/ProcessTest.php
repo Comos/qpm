@@ -1,7 +1,6 @@
 <?php
-namespace qpmtest\process;
-require_once 'qpm/process/Process.php';
-require_once 'qpm/process/Runnable.php';
+namespace qpm\process;
+
 use \qpm\process\Process;
 
 class ProcessTest extends \PHPUnit_Framework_TestCase {

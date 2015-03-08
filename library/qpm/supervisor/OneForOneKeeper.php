@@ -1,7 +1,5 @@
 <?php
 namespace qpm\supervisor;
-require_once 'qpm/process/Process.php';
-require_once 'qpm/supervisor/Config.php';
 use qpm\process\Process;
 class OneForOneKeeper {
 	const DEFAULT_RESTART_INTERVAL = 100000;//for usleep

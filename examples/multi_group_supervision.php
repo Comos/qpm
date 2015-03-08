@@ -1,6 +1,5 @@
 <?php
 require __DIR__.'/bootstrap.inc.php';
-require_once 'qpm/supervisor/Supervisor.php';
 
 $run1 = function() {
 	echo "run1,pid:".posix_getpid()."\n";

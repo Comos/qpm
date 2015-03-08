@@ -1,8 +1,5 @@
 <?php
 namespace qpm\supervisor;
-require_once 'qpm/process/Process.php';
-require_once 'qpm/supervisor/Config.php';
-require_once 'qpm/log/Logger.php';
 
 use qpm\process\Process;
 use qpm\log\Logger;

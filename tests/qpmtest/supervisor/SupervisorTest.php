@@ -1,7 +1,6 @@
 <?php
-namespace qpmtests\supervisor;
-require_once 'qpm/supervisor/Supervisor.php';
-require_once 'qpm/process/Process.php';
+namespace qpm\supervisor;
+
 use qpm\supervisor\Supervisor;
 use qpm\process\Process;
 
@@ -9,7 +8,7 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->_logFile = __FILE__.'.log';
-		$this->_logFile = __FILE__.'.log1';
+		$this->_logFile1 = __FILE__.'.log1';
 		@unlink($this->_logFile);
 		@unlink($this->_logFile1);
 	}
@@ -43,7 +42,6 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	public function testMultiGroupOneForOne() {
-		$this->markTestIncomplete();
 		$cmd = sprintf("%s %s %s %s",
 			PHP_BINDIR.'/php',
 			__FILE__.'.script',

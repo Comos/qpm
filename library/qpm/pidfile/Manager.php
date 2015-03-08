@@ -1,7 +1,5 @@
 <?php
 namespace qpm\pidfile;
-require_once __DIR__.'/Exception.php';
-require_once 'qpm/process/Process.php';
 use qpm\process\Process;
 class Manager {
  private $_file;

@@ -38,7 +38,6 @@ class KeeperRestartPolicy {
 			break;
 		}
 		if (count($this->_list) > $this->_max) {
-			require_once __DIR__.'/OutOfPolicyException.php';
 			throw new OutOfPolicyException('out of policy');
 		}
 	}
@@ -59,7 +58,6 @@ class KeeperRestartIgnoreTimePolicy extends KeeperRestartPolicy {
 	}
 	public function check() {
 		if(++$this->_count > $this->_max) {
-			require_once __DIR__.'/OutOfPolicyException.php';
 			throw new OutOfPOlicyException('out of policy');
 		}
 	}

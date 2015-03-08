@@ -32,7 +32,6 @@ class Process {
 	public static function current() {
 		$pid = \posix_getpid();
 		if (!self::$_current || !self::$_current->isCurrent()) {
-			require_once __DIR__.'/MainProcess.php';
 			self::$_current = new MainProcess($pid, \posix_getppid());
 		}
 		return self::$_current;
@@ -88,7 +87,6 @@ class Process {
 	public function doKill($sig) {
 		$result = posix_kill($this->_pid, $sig);
 		if(false === $result) {
-                        require_once __DIR__.'/FailToSendSignalException.php';
                         throw new FailToSendSignalException('kill '.$sig.' '.$this->_pid);
         	}
 		return $result;

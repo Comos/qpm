@@ -1,7 +1,6 @@
 <?php
 require __DIR__.'/bootstrap.inc.php';
 
-require_once 'qpm/process/Process.php';
 $func = function() {
 	echo posix_getpid(),"\t";echo microtime(),"\n";
 	sleep(2);

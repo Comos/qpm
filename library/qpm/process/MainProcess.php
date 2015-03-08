@@ -1,7 +1,5 @@
 <?php
 namespace qpm\process;
-require_once __DIR__.'/Process.php';
-require_once __DIR__.'/ChildProcess.php';
 class MainProcess extends Process {
 	/**
 	 * fork and run qpm\process\Runnable::run() in child process
@@ -22,14 +20,12 @@ class MainProcess extends Process {
 			throw new \InvalidArgumentException('argument must be a valid callback');
 		}
 		if (!$this->isCurrent()) {
-			require_once __DIR__.'/FailToForkException.php';
 			throw new FailToForkException('the instance does not represent current main process.');
 		}
 		
 		$pid = \pcntl_fork();
 		
 		if ($pid == -1) {
-			require_once __DIR__.'/FailToForkException.php';
 			throw new FailToForkException('fail to folk.');
 		}
 		
@@ -54,7 +50,6 @@ class MainProcess extends Process {
 	 */
 	public function toBackground() {
 		if (0 > posix_setsid()) {
-			require_once __DIR__.'/Exception.php';
 			throw new Exception('fail to set sid of current process');
 		}
 	}

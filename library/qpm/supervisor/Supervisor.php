@@ -1,7 +1,5 @@
 <?php
 namespace qpm\supervisor;
-require_once 'qpm/supervisor/Config.php';
-require_once 'qpm/log/Logger.php';
 use qpm\log\Logger;
 
 class Supervisor {
@@ -9,7 +7,6 @@ class Supervisor {
 	 *@ return qpm\supervisor\Supervisor
 	 */
 	public static function taskFactoryMode($conf) {
-		require_once __DIR__.'/TaskFactoryKeeper.php';
 		$config = new Config($conf);
 		return new self(new TaskFactoryKeeper($config));
 	}
@@ -40,7 +37,6 @@ class Supervisor {
 	 * @return qpm\supervisor\Supervisor
 	 */
 	private static function _oneForOne($configs) {
-		require_once __DIR__.'/OneForOneKeeper.php';
 		return new self(new OneForOneKeeper($configs));
 	}
 	

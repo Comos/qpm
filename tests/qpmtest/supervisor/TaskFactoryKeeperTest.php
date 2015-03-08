@@ -1,8 +1,5 @@
 <?php
-namespace qpmtest\supervisor;
-require_once 'qpm/supervisor/TaskFactoryKeeper.php';
-require_once 'qpm/supervisor/StopSignal.php';
-require_once 'qpm/process/Runnable.php';
+namespace qpm\supervisor;
 
 use qpm\supervisor\TaskFactoryKeeper;
 use qpm\supervisor\StopSignal;

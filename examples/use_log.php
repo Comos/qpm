@@ -1,7 +1,5 @@
 <?php
 require __DIR__.'/bootstrap.inc.php';
-require_once 'qpm/supervisor/Supervisor.php';
-require_once 'qpm/log/Logger.php';
 
 qpm\log\Logger::useSimpleLogger(__FILE__.'-simple-logger.log');
 

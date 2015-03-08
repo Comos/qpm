@@ -1,7 +1,6 @@
 <?php
-namespace qpmtest\supervisor;
-require_once 'qpm/supervisor/Config.php';
-require_once 'qpm/process/Runnable.php';
+namespace qpm\supervisor;
+
 use qpm\supervisor\Config;
 use qpm\process\Runnable;
 

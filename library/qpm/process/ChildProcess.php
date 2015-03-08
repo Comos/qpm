@@ -1,7 +1,5 @@
 <?php
 namespace qpm\process;
-require_once __DIR__.'/Process.php';
-require_once __DIR__.'/status/ForkedChildStatus.php';
 /**
  * A instance of ChildProcess represents a fork in main process.
  * Generally, it returns by MainProcess::fork().
@@ -43,7 +41,6 @@ class ChildProcess extends Process {
 			$this->_exited = true;
 		}
 		if ($pid == -1) {
-			require_once __DIR__.'/FailToGetChildStatusException.php';
 			throw new FailToGetChildStatusException('wait returns -1. status is '.$this->_status);
 		}
 	}

@@ -1,6 +1,5 @@
 <?php
 namespace qpm\process\status;
-require_once __DIR__.'/NotExitStatus.php';
 class ForkedChildStatus {
 	protected static $_statuses = array();
 	/**
