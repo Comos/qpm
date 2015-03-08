@@ -26,7 +26,7 @@ class MainProcess extends Process {
 		$pid = \pcntl_fork();
 		
 		if ($pid == -1) {
-			throw new FailToForkException('fail to folk.');
+			throw new FailToForkException('fail to fork.');
 		}
 		
 		if ($pid == 0) {

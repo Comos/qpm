@@ -41,7 +41,7 @@ class Process {
 	 * returns null on failure
 	 * It cannot be realtime in some cases.
 	 * e.g. 
-	 * 	$child = Process::current()->folkByCallable($fun);
+	 * 	$child = Process::current()->forkByCallable($fun);
 	 *  echo $child->getParent()->getPid();
 	 * If child process changed the parent, you would get the old parent ID.
 	 */
