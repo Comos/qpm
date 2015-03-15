@@ -85,7 +85,6 @@ class Config {
 	private function _initTimeout($config) {
 		$q = self::_fetchIntValue($config, "timeout", self::DEFAULT_TIMEOUT);
 		if (!\is_int($q) && !\is_float($q)) {
-			var_dump($q);
 			throw new \InvalidArgumentException('timeout must be num');
 		}
 		$this->_timeout = $q;
