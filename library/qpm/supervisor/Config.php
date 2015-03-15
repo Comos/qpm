@@ -1,5 +1,6 @@
 <?php
 namespace qpm\supervisor;
+
 /**
  *@example
  new Config([
@@ -8,6 +9,7 @@ namespace qpm\supervisor;
 	'quantity' => 3,//how many process to keep,default is 1
 	'maxRestartTimes' => 3,//default is -1,-1 means ignore it
 	'withInSeconds' => 10,//default is -1,means ignore it
+	'timeout' => 10,//default is -1, means ignore it
  ]);
  *
  */
@@ -15,14 +17,18 @@ class Config {
 	const DEFAULT_QUANTITY = 1;
 	const DEFAULT_MAX_RESTART_TIMES = -1;
 	const DEFAULT_WITH_IN_SECONDS = -1;
-
+	const DEFAULT_TIMEOUT = -1;
+	
 	protected $_factoryMethod;
 	protected $_keeperRestartPolicy;
-	
+	protected $_timeout;
+	protected $_onTimeout;		
 	public function __construct($config) {
 		$this->_initFactoryMethod($config);
 		$this->_initQuantity($config);
+		$this->_initTimeout($config);
 		$this->_initKeeperRestartPolicy($config);
+		$this->_initOnTimeout($config);
 	}
 	public function getFactoryMethod() {
 		return $this->_factoryMethod;
@@ -34,6 +40,12 @@ class Config {
 
 	public function getQuantity() {
 		return $this->_quantity;
+	}
+	public function getOnTimeout() {
+		return $this->_onTimeout;
+	}
+	public function getTimeout() {
+		return $this->_timeout;
 	}
 	
 	private function _initKeeperRestartPolicy($config) {
@@ -70,7 +82,26 @@ class Config {
 		$this->_quantity = $q;
 		
 	}
-	
+	private function _initTimeout($config) {
+		$q = self::_fetchIntValue($config, "timeout", self::DEFAULT_TIMEOUT);
+		if (!\is_int($q) && !\is_float($q)) {
+			var_dump($q);
+			throw new \InvalidArgumentException('timeout must be num');
+		}
+		$this->_timeout = $q;
+	}
+
+	private function _initOnTimeout($config) {
+		$q = isset($config['onTimeout'])?$config['onTimeout']:null;
+		if (\is_null($q)) {
+			return $q;
+		}
+		if (!\is_callable($q)) {
+			throw new \InvalidArgumentException('onTimeout must be callable');
+		}
+		$this->_onTimeout = $q;
+	}
+
 	private function _initFactoryMethod($config) {
 		if (isset($config['factoryMethod'])) {
 			if (!\is_callable($config['factoryMethod'])) {

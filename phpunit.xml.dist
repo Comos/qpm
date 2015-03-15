@@ -2,10 +2,10 @@
 <phpunit
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd"
-         bootstrap="bootstrap.inc.php">
+         bootstrap="tests/bootstrap.inc.php">
 	<testsuites>
 		<testsuite name="qpm all">
-			<directory suffix="Test.php">.</directory>
+			<directory suffix="Test.php">tests</directory>
     		</testsuite>
 	</testsuites>
 </phpunit>
