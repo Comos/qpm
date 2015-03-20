@@ -58,7 +58,7 @@ class KeeperRestartIgnoreTimePolicy extends KeeperRestartPolicy {
 	}
 	public function check() {
 		if(++$this->_count > $this->_max) {
-			throw new OutOfPOlicyException('out of policy');
+			throw new OutOfPolicyException('out of policy');
 		}
 	}
 	public function reset() {
