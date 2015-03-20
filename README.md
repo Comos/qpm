@@ -14,11 +14,9 @@ QPM 目前包括4个主要的子模块：
 
 examples目录下有若干使用的示例，tests是测试用例所在的目录。
 
-QPM也支持通过Composer安装:
+QPM也支持通过Composer安装:```composer require comos/qpm```
 
-```composer require comos/qpm```
-
-也可通过其他方式下载并部署QPM，参考[[安装和使用QPM]]。
+也可通过其他方式下载并部署QPM，参考[安装和使用QPM](https://github.com/Comos/qpm/wiki/安装和使用QPM)。
 
 QPM 运行时，必须使用autoloader，强烈建议使用Composer自带的autoloader，否则需要自行注册autoload回调，可参考：[autoload.php](https://github.com/Comos/qpm/blob/master/bootstrap.php)
 
