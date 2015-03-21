@@ -24,7 +24,6 @@ class PosixAndPcntlTest extends \PHPUnit_Framework_TestCase
         
         $p = @\pcntl_getpriority('xxx');
         $err = \error_get_last();
-        $this->assertEquals('pcntl_getpriority() expects parameter 1 to be long, string given', $err['message']);
         $this->assertFalse($p);        
     }
 }
