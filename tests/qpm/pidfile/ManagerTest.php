@@ -61,7 +61,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 	}
 	public function testStart_Start2ProcessWithOnePidFile() {
 		$pidfile = $this->_pidFile;
-		$process = \qpm\process\Process::current()->forkByCallable(function() use($pidfile) {
+		$process = \qpm\process\Process::fork(function() use($pidfile) {
 			$man = new Manager($pidfile);
 			$man->start();
 			usleep(200*1000);

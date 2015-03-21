@@ -22,7 +22,7 @@ $supProcessCallback = function () use($configs) {
 	$supervisor->start();
 	$supervisor->registerSignalHandler();
 };
-$supProcess = Process::current()->forkByCallable($supProcessCallback);
+$supProcess = Process::fork($supProcessCallback);
 usleep(5000*1000);
 $supProcess->terminate();
 usleep(5000*1000);

@@ -8,6 +8,6 @@ $func = function() {
 };
 for($i=0; $i<10; $i++) {
 	//public function forkByCallable($callable) 
-	qpm\process\Process::current()->forkByCallable($func);
+	qpm\process\Process::fork($func);
 }
 sleep(20);

@@ -13,7 +13,7 @@ $func = function() {
 	}
 };
 
-qpm\process\Process::current()->forkByCallable($func);
+qpm\process\Process::fork($func);
 sleep(1);
 echo posix_getpid()."\tbye\n";
 exit();

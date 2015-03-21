@@ -47,12 +47,11 @@ class TaskFactoryKeeper {
 			Logger::debug('fetched target is null. skipped');
 			return;
 		}
-		$forkMethod = ($target instanceof \qpm\process\Runnable) ? 'fork' : 'forkByCallable';
 		try {
-			$process = Process::current()->$forkMethod($target);
+			$process = Process::fork($target);
 			$this->_children[$process->getPid()] = [$process, microtime(true)]; 
 		} catch(\Exception $ex) {
-			Logger::err('[ALARM]'.$ex);
+			Logger::err('{exception}', ['exception'=>$ex]);
 			usleep(self::SLEEP_TIME_AFTER_ERROR);
 		}
 	}

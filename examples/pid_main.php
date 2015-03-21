@@ -1,6 +1,8 @@
 <?php
-require __DIR__.'/bootstrap.inc.php';
+require __DIR__ . '/bootstrap.inc.php';
 use qpm\pidfile\Manager;
-$man = new Manager(__FILE__.'.pid');
+$man = new Manager(__FILE__ . '.pid');
 $man->start();
-while(true) sleep(10);
+while (true) {
+    sleep(10);
+}
