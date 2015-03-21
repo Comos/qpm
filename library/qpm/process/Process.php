@@ -2,15 +2,13 @@
 /**
  * @author bigbigant
  */
-
 namespace qpm\process;
 
 class Process
 {
 
     /**
-     *
-     * @var MainProcess
+     * @var Process
      */
     protected static $_current;
 
@@ -37,7 +35,7 @@ class Process
     }
 
     /**
-     *
+     * Factory method to create a new \qpm\process\Process instance
      * @return Process
      */
     public static function process($pid)
@@ -47,13 +45,13 @@ class Process
 
     /**
      *
-     * @return MainProcess
+     * @return Process
      */
     public static function current()
     {
-        $pid =\posix_getpid();
+        $pid = \posix_getpid();
         if (! self::$_current || ! self::$_current->isCurrent()) {
-            self::$_current = new MainProcess($pid,\posix_getppid());
+            self::$_current = new Process($pid, \posix_getppid());
         }
         return self::$_current;
     }
@@ -74,13 +72,22 @@ class Process
         }
         
         if ($this->isCurrent()) {
-            $ppid =\posix_getppid();
+            $ppid = \posix_getppid();
             if (! $ppid)
                 return null;
             return self::process($ppid);
         }
         
         return null;
+    }
+
+    /**
+     *
+     * @return integer
+     */
+    public static function getCurrentPid()
+    {
+        return\posix_getpid();
     }
 
     /**
@@ -98,7 +105,7 @@ class Process
      */
     public function isCurrent()
     {
-        return\posix_getpid() == $this->_pid;
+        return \posix_getpid() == $this->_pid;
     }
 
     /**
@@ -116,7 +123,7 @@ class Process
     {
         return $this->doKill(SIGTERM);
     }
-
+    
     public function doKill($sig)
     {
         $result = posix_kill($this->_pid, $sig);
@@ -125,39 +132,57 @@ class Process
         }
         return $result;
     }
+
     /**
+     * to fork to create a process and run $target in there
      * 
-     * @param \qpm\process\Runnable|\callable $target
-     * @return \qpm\process\Process
+     * @param \qpm\process\Runnable | \callable $target            
+     * @return \qpm\process\ChildProcess
      */
-    public static function fork($target) {
+    public static function fork($target)
+    {
         if ($target instanceof \qpm\process\Runnable) {
-            $target = array($target, 'run');
+            $target = array(
+                $target,
+                'run'
+            );
         }
-        if (!\is_callable($target)) {
+        if (! \is_callable($target)) {
             throw new \InvalidArgumentException('$target must be a valid callback or qpm\\process\\Runnable');
         }
         
-        $pid = \pcntl_fork();
-    
-        if ($pid == -1) {
+        $pid =\pcntl_fork();
+        
+        if ($pid == - 1) {
             throw new FailToForkException('fail to folk.');
         }
-    
+        
         if ($pid == 0) {
             try {
                 $code = $target();
             } catch (\Exception $ex) {
-                $code = -1;
+                $code = - 1;
             }
-            if (!\is_int($code)) {
+            if (! \is_int($code)) {
                 $code = 1;
-            } else if (\is_null($code)) {
-                $code = 0;
-            }
+            } else 
+                if (\is_null($code)) {
+                    $code = 0;
+                }
             exit($code);
         }
-    
-        return new ChildProcess($pid, self::current()->getPid());
+        
+        return new ChildProcess($pid, self::getCurrentPid());
+    }
+    /**
+     * let current process run in the background
+     * 
+     * @throws Exception
+     */
+    public static function toBackground()
+    {
+        if (0 >\posix_setsid()) {
+            throw new Exception('fail to set sid');
+        }
     }
 }

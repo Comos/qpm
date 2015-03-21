@@ -6,7 +6,7 @@
 require __DIR__.'/bootstrap.inc.php';
 
 $func = function() {
-	qpm\process\Process::current()->toBackground();
+	qpm\process\Process::toBackground();
 	$current = qpm\process\Process::current();
 	for($i = 0; $i<=20; $i++) {
 		sleep(2);
