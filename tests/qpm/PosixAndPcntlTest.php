@@ -22,8 +22,9 @@ class PosixAndPcntlTest extends \PHPUnit_Framework_TestCase
         $p = \pcntl_getpriority(\posix_getpid());
         $this->assertTrue(is_integer($p));
         
+        //returns null in HHVM
         $p = @\pcntl_getpriority('xxx');
         $err = \error_get_last();
-        $this->assertFalse($p);        
+        $this->assertTrue(is_null($p) || $p === false);        
     }
 }
