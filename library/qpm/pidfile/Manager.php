@@ -47,6 +47,9 @@ class Manager
         if ($pidInFile === false) {
             throw new \qpm\pidfile\Exception('fail to read file');
         }
+        if (!\is_numeric($pidInFile)) {
+            return null;
+        }
         return $pidInFile;
     }
 
@@ -61,6 +64,9 @@ class Manager
 
     private function _processExists($pid)
     {
+        if (\is_null($pid)) {
+            return false;
+        }
         return false !== @\pcntl_getpriority($pid);
     }
 
