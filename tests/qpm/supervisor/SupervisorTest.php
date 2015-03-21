@@ -13,8 +13,13 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 		parent::setUp();
 		$this->_logFile = __FILE__.'.log';
 		$this->_logFile1 = __FILE__.'.log1';
-		@unlink($this->_logFile);
-		@unlink($this->_logFile1);
+		@\unlink($this->_logFile);
+		@\unlink($this->_logFile1);
+	}
+	
+	protected function tearDown() {
+	    @\unlink($this->_logFile);
+	    @\unlink($this->_logFile1);
 	}
 	/**
 	 *@expectedException InvalidArgumentException
@@ -53,7 +58,7 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 			escapeshellarg($this->_logFile1)
 		);
 		exec($cmd);
-		$this->assertEquals(1, preg_match('/^1{4,10}$/', file_get_contents($this->_logFile)),file_get_contents($this->_logFile));
-		$this->assertEquals(1, preg_match('/^2{15,25}/', file_get_contents($this->_logFile1)),file_get_contents($this->_logFile1));
+		$this->assertEquals(1, preg_match('/^1{4,10}$/', \file_get_contents($this->_logFile)), \file_get_contents($this->_logFile));
+		$this->assertEquals(1, preg_match('/^2{15,25}/', \file_get_contents($this->_logFile1)), \file_get_contents($this->_logFile1));
 	}
 }

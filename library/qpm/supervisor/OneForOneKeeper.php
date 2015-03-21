@@ -2,26 +2,50 @@
 /**
  * @author bigbigant
  */
-
 namespace qpm\supervisor;
 
 use qpm\process\Process;
+use qpm\log\Logger;
 
 class OneForOneKeeper
 {
 
+    /**
+     * microseconds to sleep after a non-blocking pcntl_wait
+     *
+     * @var integer
+     */
     const DEFAULT_RESTART_INTERVAL = 100000;
- // for usleep
+    /**
+     * 
+     * @var boolean
+     */
     protected $_stoped = false;
-
+    /**
+     * 
+     * @var Process
+     */
     protected $_currentProcess;
-
+    /**
+     * 
+     * @var ProcessStub[]
+     */
     protected $_children = [];
-
+    /**
+     * 
+     * @var Config[]
+     */
     protected $_configs;
-
+    /**
+     * 
+     * @var KeeperRestartPolicy[]
+     */
     protected $_policies;
 
+    /**
+     *
+     * @param Config[] $configs            
+     */
     public function __construct($configs)
     {
         $this->_currentProcess = Process::current();
@@ -41,20 +65,16 @@ class OneForOneKeeper
             $this->_policies[$groupId] = $config->getKeeperRestartPolicy();
             $quantity = $config->getQuantity();
             while ($quantity -- > 0) {
-                $this->_startOne($groupId);
+                $this->_startOne($groupId, $config);
             }
         }
     }
 
-    protected function _startOne($groupId)
+    protected function _startOne($groupId, Config $config)
     {
-        $config = $this->_configs[$groupId];
         $target = call_user_func($config->getFactoryMethod());
         $process = Process::fork($target);
-        $this->_children[$process->getPid()] = [
-            'g' => $groupId,
-            'p' => $process
-        ];
+        $this->_children[$process->getPid()] = new ProcessStub($process, $config, $groupId);
     }
 
     /**
@@ -66,30 +86,58 @@ class OneForOneKeeper
         $this->_stoped = false;
         while (! $this->_stoped) {
             $status = null;
-            $pid =\pcntl_wait($status, WNOHANG);
+            $pid = \pcntl_wait($status, \WNOHANG);
             if ($pid > 0) {
                 $this->_processExit($pid);
             } else {
                 usleep(self::DEFAULT_RESTART_INTERVAL);
             }
+            $this->_checkTimeout();
+        }
+    }
+
+    protected function _checkTimeout()
+    {
+        foreach ($this->_children as $pid => $stub) {
+            
+            if (! $stub->isTimeout()) {
+                continue;
+            }
+            try {
+                \qpm\log\Logger::info("process[" . $stub->getProcess->getPid() . "] will be killed for timeout");
+                $this->_onTimeout($stub);
+                $this->_killedChildren[$pid] = $stub;
+                unset($this->_children[$pid]);
+                $stub->getProcess()->kill();
+            } catch (\Exception $ex) {
+                \qpm\log\Logger::err($ex);
+            }
+        }
+    }
+
+    protected function _onTimeout(ProcessStub $stub)
+    {
+        $onTimeoutCallback = $stub->getConfig()->getOnTimeout();
+        if ($onTimeoutCallback) {
+            $onTimeoutCallback($stub->getProcess());
         }
     }
 
     protected function _processExit($pid)
     {
         if (! isset($this->_children[$pid])) {
-            // TODO log
+            Logger::err("an unknown child process exited PID[{$pid}]");
             return;
         }
-        $groupId = $this->_children[$pid]['g'];
+        $stub = $this->_children[$pid];
         unset($this->_children[$pid]);
         try {
-            $this->_policies[$groupId]->check();
+            $this->_policies[$stub->getGroupId()]->check();
         } catch (OutOfPolicyException $ex) {
             $this->stop();
             throw $ex;
         }
-        $this->_startOne($groupId);
+        $this->_startOne($stub->getGroupId(), $stub->getConfig());
     }
 
     public function stop()
@@ -98,17 +146,17 @@ class OneForOneKeeper
             return;
         }
         $this->_stoped = true;
-        foreach ($this->_children as $child) {
+        foreach ($this->_children as $stub) {
             try {
-                $child['p']->kill();
+                $stub->getProcess()->kill();
             } catch (Exception $ex) {
-                // do nothing
+                Logger::err('fail to kill process', ['exception'=>$ex]);
             }
         }
         
         while (count($this->_children)) {
             $status = 0;
-            $pid =\pcntl_wait($status);
+            $pid = \pcntl_wait($status);
             unset($this->_children[$pid]);
         }
     }

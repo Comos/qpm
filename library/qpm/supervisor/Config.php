@@ -48,8 +48,18 @@ class Config {
 	public function getOnTimeout() {
 		return $this->_onTimeout;
 	}
+	/**
+	 * 
+	 * @return integer
+	 */
 	public function getTimeout() {
 		return $this->_timeout;
+	}
+	/**
+	 * @return boolean
+	 */
+	public function isTimeoutEnabled() {
+	    return $this->getTimeout() > 0;
 	}
 	
 	private function _initKeeperRestartPolicy($config) {
