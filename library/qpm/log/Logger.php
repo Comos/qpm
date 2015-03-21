@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\log;
 
 class Logger {

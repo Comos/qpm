@@ -1,30 +1,40 @@
 <?php
-/*
- * 进程结构
- * master
- * |-worker
- * |-worker
- * |_worker
+/**
+ * @author bigbigant
+ * 
+ *    进程结构
+ *    master
+ *    |-worker
+ *    |-worker
+ *    |_worker
  *
  */
 require __DIR__ . '/bootstrap.inc.php';
 
 use qpm\process\Process as Process;
 
-// 启动Daemon
+// Start Daemon
 Process::fork(function ()
 {
     Process::current()->toBackground();
     master(5);
 });
 
-// 启动子工作进程
+/**
+ * start a worker(child) process.
+ */
 function startWorker()
 {
     Process::fork('worker');
 }
 
-// master进程
+/**
+ * master.
+ * 
+ * to start and mantaince child processes.
+ * 
+ * @param integer $maxChildren
+ */
 function master($maxChildren)
 {
     for ($i = 0; $i < $maxChildren; $i ++) {
@@ -38,7 +48,11 @@ function master($maxChildren)
     }
 }
 
-// worker进程
+/**
+ * worker
+ * 
+ * executes in child process
+ */
 function worker()
 {
     sleep(5);

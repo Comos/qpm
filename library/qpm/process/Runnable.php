@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\process;
 interface Runnable {
 	/**

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\log;
 
 use qpm\log\Logger;

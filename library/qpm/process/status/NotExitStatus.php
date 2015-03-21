@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\process\status;
 class NotExitStatus extends ForkedChildStatus {
 	/**

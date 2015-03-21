@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\pidfile;
 use qpm\process\Process;
 class Manager {

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\process;
 /**
  * A instance of ChildProcess represents a fork in main process.

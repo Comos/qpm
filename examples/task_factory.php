@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 require __DIR__ . '/bootstrap.inc.php';
 
 qpm\log\Logger::useSimpleLogger(__FILE__ . '.log');

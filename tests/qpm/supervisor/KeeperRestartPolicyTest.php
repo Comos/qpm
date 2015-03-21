@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 namespace qpm\supervisor;
 use \qpm\supervisor\KeeperRestartPolicy;
 

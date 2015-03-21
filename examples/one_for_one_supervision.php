@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author bigbigant
+ */
+
 require __DIR__ . '/bootstrap.inc.php';
 
 $run = function ()
