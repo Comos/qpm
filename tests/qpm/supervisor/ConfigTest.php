@@ -25,6 +25,29 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 		$config = new Config($configData);
 		$this->assertEquals(10, $config->getQuantity());
 	}
+	
+	/**
+     * @dataProvider dataProvider_isTimeoutEnabled
+	 */
+	public function testTimeout($timeout, $expectedEnabled, $expectedTimeout) {
+	    $func = function() {exit;};
+	    $configData = array('runnableCallback'=>$func, 'quantity'=> 10);
+	    if (!\is_null($timeout)) {
+	        $configData['timeout'] = $timeout;
+	    }
+	    $config = new Config($configData);
+	    $this->assertTrue($expectedEnabled === $config->isTimeoutEnabled());
+	    $this->assertEquals($expectedTimeout, $config->getTimeout());
+	}
+	
+	public function dataProvider_isTimeoutEnabled() {
+	    return [
+	        [1,true, 1],
+	        [-1, false, -1],
+	        [0, false, 0],
+	        [null, false, -1],
+	    ];
+	}
 
 	/**
 	 * @expectedException InvalidArgumentException
