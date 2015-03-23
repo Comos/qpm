@@ -52,9 +52,10 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testCurrent_AfterFork()
     {
-        $child = Process::fork(function ()
+        $logFile = $this->_logFile;
+        $child = Process::fork(function () use($logFile)
         {
-            \file_put_contents($this->_logFile, Process::current()->getPid());
+            \file_put_contents($logFile, Process::current()->getPid());
         });
         usleep(1000 * 20);
         $pidFromLogFile = file_get_contents($this->_logFile);
