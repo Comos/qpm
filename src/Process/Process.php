@@ -115,7 +115,7 @@ class Process
      */
     public function kill()
     {
-        return $this->doKill(SIGKILL);
+        return $this->doKill(\SIGKILL);
     }
 
     /**
@@ -123,12 +123,12 @@ class Process
      */
     public function terminate()
     {
-        return $this->doKill(SIGTERM);
+        return $this->doKill(\SIGTERM);
     }
 
     public function doKill($sig)
     {
-        $result = posix_kill($this->_pid, $sig);
+        $result = \posix_kill($this->_pid, $sig);
         if (false === $result) {
             throw new FailToSendSignalException('kill ' . $sig . ' ' . $this->_pid);
         }
@@ -162,7 +162,7 @@ class Process
         
         if ($pid == 0) {
             try {
-                $code = $target();
+                $code = call_user_func($target);
             } catch (\Exception $ex) {
                 $code = - 1;
             }
