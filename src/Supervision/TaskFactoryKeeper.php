@@ -6,7 +6,7 @@
 namespace Comos\Qpm\Supervision;
 
 use Comos\Qpm\Process\Process;
-use Comos\Qpm\log\Logger;
+use Comos\Qpm\Log\Logger;
 
 class TaskFactoryKeeper {
 	const SLEEP_TIME_AFTER_ERROR = 1000000;
@@ -94,13 +94,13 @@ class TaskFactoryKeeper {
 		foreach ($this->_children as $pid => $child) {
 			if ($t - $child[1] >= $this->_timeout)  {
 				try {
-					\Comos\Qpm\log\Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
+					\Comos\Qpm\Log\Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
 					$this->_onTimeout($child[0]);
 					$this->_killedChildren[$pid] = $child;
 					unset($this->_children[$pid]);
 					$child[0]->kill();
 				} catch (\Exception $ex) {
-					\Comos\Qpm\log\Logger::err($ex);
+					\Comos\Qpm\Log\Logger::err($ex);
 				}
 			}
 		}

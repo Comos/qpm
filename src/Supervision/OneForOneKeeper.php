@@ -5,7 +5,7 @@
 namespace Comos\Qpm\Supervision;
 
 use Comos\Qpm\Process\Process;
-use Comos\Qpm\log\Logger;
+use Comos\Qpm\Log\Logger;
 
 class OneForOneKeeper
 {
@@ -104,13 +104,13 @@ class OneForOneKeeper
                 continue;
             }
             try {
-                \Comos\Qpm\log\Logger::info("process[" . $stub->getProcess->getPid() . "] will be killed for timeout");
+                \Comos\Qpm\Log\Logger::info("process[" . $stub->getProcess->getPid() . "] will be killed for timeout");
                 $this->_onTimeout($stub);
                 $this->_killedChildren[$pid] = $stub;
                 unset($this->_children[$pid]);
                 $stub->getProcess()->kill();
             } catch (\Exception $ex) {
-                \Comos\Qpm\log\Logger::err($ex);
+                \Comos\Qpm\Log\Logger::err($ex);
             }
         }
     }

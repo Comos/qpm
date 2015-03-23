@@ -4,7 +4,7 @@
  */
 
 namespace Comos\Qpm\Supervision;
-use Comos\Qpm\log\Logger;
+use Comos\Qpm\Log\Logger;
 
 class Supervisor {
 	/**
