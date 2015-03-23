@@ -101,7 +101,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage runnableClass must be an implemention of \Comos\Qpm\Process\Runnable
+	 * @expectedExceptionMessage runnableClass must be an implemention of Comos\Qpm\Process\Runnable
 	 */
 	public function test__Construct_RunnableClassIsNotRunnable() {
 		$data = ['runnableClass' => '\ArrayList'];

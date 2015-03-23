@@ -126,7 +126,7 @@ class Config {
 		if (isset($config['runnableClass'])) {
 			$clazz = $config['runnableClass'];
 			if (!is_subclass_of($clazz, '\Comos\Qpm\Process\Runnable')) {
-				throw new \InvalidArgumentException('runnableClass must be an implemention of \\Comos\Qpm\\process\\Runnable');
+				throw new \InvalidArgumentException('runnableClass must be an implemention of Comos\\Qpm\\Process\\Runnable');
 			}
 			$this->_factoryMethod = function() use($clazz) {
 				return array((new $clazz()), 'run');

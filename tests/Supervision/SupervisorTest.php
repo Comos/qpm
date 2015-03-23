@@ -53,7 +53,7 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 	public function testMultiGroupOneForOne() {
 		$cmd = sprintf("%s %s %s %s",
 			PHP_BINDIR.'/php',
-			__FILE__.'.script',
+			\preg_replace('/\\.php$/', '.cmd.php', __FILE__),
 			escapeshellarg($this->_logFile),
 			escapeshellarg($this->_logFile1)
 		);

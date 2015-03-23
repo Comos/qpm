@@ -5,8 +5,6 @@
 
 namespace Comos\Qpm\Process;
 
-use \Comos\Qpm\Process\Process;
-
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
 

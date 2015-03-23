@@ -5,7 +5,7 @@
 
 namespace Comos\Qpm\Log;
 
-use Qpm\Log\Logger;
+use Comos\Qpm\Log\Logger;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase {
 	protected $_logFile; 

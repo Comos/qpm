@@ -151,7 +151,7 @@ class Process
             );
         }
         if (!\is_callable($target)) {
-            throw new \InvalidArgumentException('$target must be a valid callback or Comos\Qpm\\process\\Runnable');
+            throw new \InvalidArgumentException('$target must be a valid callback or Comos\Qpm\\Process\\Runnable');
         }
         
         $pid = \pcntl_fork();
