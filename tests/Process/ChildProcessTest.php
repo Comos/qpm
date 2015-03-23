@@ -20,8 +20,8 @@ class ChildProcessTest extends \PHPUnit_Framework_TestCase {
 	public function testGetStatus() {
 		$child = Process::fork(function() {usleep(100*1000);exit;});
 		$status = $child->getStatus();
-		$this->assertTrue($status instanceof \Comos\Qpm\Process\status\ForkedChildStatus);
-		$this->assertTrue($status instanceof \Comos\Qpm\Process\status\NotExitStatus);
+		$this->assertTrue($status instanceof \Comos\Qpm\Process\Status\ForkedChildStatus);
+		$this->assertTrue($status instanceof \Comos\Qpm\Process\Status\NotExitStatus);
 		$this->assertNull($status->getExitCode());
 	}
 }

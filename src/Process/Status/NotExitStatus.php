@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-namespace Comos\Qpm\Process\status;
+namespace Comos\Qpm\Process\Status;
 class NotExitStatus extends ForkedChildStatus {
 	/**
 	 * @see \Comos\Qpm\Process\Status\ForkedChildStatus::isNormalExit()
