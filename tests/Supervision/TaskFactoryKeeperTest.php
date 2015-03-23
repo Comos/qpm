@@ -40,7 +40,7 @@ class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
 
     public function testRun()
     {
-        Supervisor::taskFactoryMode(['quantity' => 3, 'factoryMethod' => [$this, 'mockFetchTask']])
+        Supervisor::taskFactoryMode(array('quantity' => 3, 'factoryMethod' => array($this, 'mockFetchTask')))
             ->start();
         $content = \file_get_contents($this->logFile);
         $arr = \str_split($content);

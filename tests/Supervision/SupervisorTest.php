@@ -25,7 +25,7 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 	 *@expectedException InvalidArgumentException
 	 */
 	public function testOneForOne_InvalidArgument() {
-		Supervisor::oneForOne([]);
+		Supervisor::oneForOne(array());
 	}
 	/**
 	 *@dataProvider dataProvider4testMultiGroupOneForOne_InvalidArgument
@@ -35,19 +35,19 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 		Supervisor::multiGroupOneForOne($data);
 	}
 	public function dataProvider4testMultiGroupOneForOne_InvalidArgument() {
-		return [
-			[[]],
-			[[[],[]]],
-			[['x']],
-			['x'],
-		];
+		return array(
+			array(array()),
+			array(array(array(),array())),
+			array(array('x')),
+			array('x'),
+		);
 	}
 	public function testMultiGroupOneForOne_CreateKeeper() {
-		Supervisor::multiGroupOneForOne([
-			['runnableCallback' => function() {exit;}],
-			['runnableCallback' => function() {exit;}],
-			['runnableCallback' => function() {exit;},'quantity' => 3, 'maxRestartTimes' => 3],
-		]);
+		Supervisor::multiGroupOneForOne(array(
+			array('runnableCallback' => function() {exit;}),
+			array('runnableCallback' => function() {exit;}),
+			array('runnableCallback' => function() {exit;},'quantity' => 3, 'maxRestartTimes' => 3),
+		));
 	}
 	
 	public function testMultiGroupOneForOne() {

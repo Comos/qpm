@@ -18,7 +18,7 @@ class Supervisor {
 	 * @return Comos\Qpm\Supervision\Supervisor
 	 */
 	public static function oneForOne($config) {
-		$configs = [new Config($config)];
+		$configs = array(new Config($config));
 		return self::_oneForOne($configs);
 	}
 	/**

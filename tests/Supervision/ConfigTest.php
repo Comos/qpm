@@ -41,12 +41,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	}
 	
 	public function dataProvider_isTimeoutEnabled() {
-	    return [
-	        [1,true, 1],
-	        [-1, false, -1],
-	        [0, false, 0],
-	        [null, false, -1],
-	    ];
+	    return array(
+	        array(1,true, 1),
+	        array(-1, false, -1),
+	        array(0, false, 0),
+	        array(null, false, -1),
+	    );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	 * @expectedExceptionMessage factoryMethod must be callable
 	 */
 	public function test__Construct_FactoryMethodIsNotCallable() {
-		$data = ['factoryMethod' => 'xx'];
+		$data = array('factoryMethod' => 'xx');
 		new Config($data);
 	}
 	
@@ -104,12 +104,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	 * @expectedExceptionMessage runnableClass must be an implemention of Comos\Qpm\Process\Runnable
 	 */
 	public function test__Construct_RunnableClassIsNotRunnable() {
-		$data = ['runnableClass' => '\ArrayList'];
+		$data = array('runnableClass' => '\ArrayList');
 		new Config($data);
 	}
 
 	public function testGetFactoryMethod() {
-		$data = ['runnableClass' => __CLASS__];
+		$data = array('runnableClass' => __CLASS__);
 		$config = new Config($data);
 		$method = $config->getFactoryMethod();
 		$this->assertTrue(\is_callable($method));
@@ -124,13 +124,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 
 	public function testGetFactoryMethod_InvalidRunnableCallback() {
 		$callback = array();
-		$data = ['runnableCallback' => $callback];
+		$data = array('runnableCallback' => $callback);
 		$config = new Config($data);
 	}
 
 	public function testGetFactoryMethod_RunnableCallback() {
 		$callback = function() {exit;};
-		$data = ['runnableCallback' => $callback];
+		$data = array('runnableCallback' => $callback);
 		$config = new Config($data);
 		$factoryMethod = $config->getFactoryMethod();
 		$this->assertTrue(\is_callable($factoryMethod));
@@ -147,11 +147,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 		new Config($data);
 	}
 	public function processLauncherMissedDataProvider() {
-		return [
-			['_x'=>1],
-			['factoryMethod' => null],
-			['runnableClass' => null],
-			['runnableCallback' => null],
-		];
+		return array(
+			array('_x'=>1),
+			array('factoryMethod' => null),
+			array('runnableClass' => null),
+			array('runnableCallback' => null),
+		);
 	}
 }

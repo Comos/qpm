@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-use Qpm\Process\Runnable;
+use Comos\Qpm\Process\Runnable;
 require __DIR__.'/bootstrap.inc.php';
 
 /**
@@ -23,11 +23,11 @@ class SpiderTaskFactory {
 	public function fetchTask() {
 		while (true) {
 			if (feof($this->_fh)) {
-				throw new Qpm\Supervision\StopSignal();
+				throw new Comos\Qpm\Supervision\StopSignal();
 			}
 			$line = trim(fgets($this->_fh));
 			if ($line == 'END') {
-				throw new Qpm\Supervision\StopSignal();
+				throw new Comos\Qpm\Supervision\StopSignal();
 			}
 			
 			if (empty($line)) {
@@ -44,9 +44,9 @@ class SpiderTaskFactory {
 
 /**
  * 在子进程中执行任务的类
- * 必须实现 Qpm\Process\Runnable 接口
+ * 必须实现 Comos\Qpm\Process\Runnable 接口
  */
-class SpiderTask implements Qpm\Process\Runnable {
+class SpiderTask implements Comos\Qpm\Process\Runnable {
 	private $_target;
 	
 	public function __construct($target) {
@@ -74,11 +74,11 @@ class SpiderTask implements Qpm\Process\Runnable {
 $input = isset($argv[1]) ? $argv[1] : __DIR__.'/spider_task_factory_data.txt';
 
 $spiderTaskFactory = new SpiderTaskFactory($input);
-$config = [
+$config = array(
 		//指定taskFactory对象和工厂方法
 		'factoryMethod'=>[$spiderTaskFactory, 'fetchTask'],
 		//指定最大并发数量为3
 		'quantity' => 3,
-];
+);
 //启动Supervisor
-Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();
+Comos\Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();

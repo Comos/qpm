@@ -13,7 +13,7 @@ class TaskFactoryKeeper {
 	protected $_stoped = false;
 	protected $_currentProcess;
 	protected $_checkingInterval = 100000;
-	protected $_children = [];
+	protected $_children = array();
 	protected $_config;
 	protected $_timeout = -1;//seconds, -1 means no timeout.
 	public function __construct($config) {
@@ -53,9 +53,9 @@ class TaskFactoryKeeper {
 		}
 		try {
 			$process = Process::fork($target);
-			$this->_children[$process->getPid()] = [$process, microtime(true)]; 
+			$this->_children[$process->getPid()] = array($process, microtime(true)); 
 		} catch(\Exception $ex) {
-			Logger::err('{exception}', ['exception'=>$ex]);
+			Logger::err('{exception}', array('exception'=>$ex));
 			usleep(self::SLEEP_TIME_AFTER_ERROR);
 		}
 	}

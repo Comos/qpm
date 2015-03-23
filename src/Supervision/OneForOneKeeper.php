@@ -30,7 +30,7 @@ class OneForOneKeeper
      * 
      * @var ProcessStub[]
      */
-    protected $_children = [];
+    protected $_children = array();
     /**
      * 
      * @var Config[]

@@ -14,9 +14,9 @@ $run = function ()
     }
 };
 
-$config = [
+$config = array(
     'runnableCallback' => $run,
     'quantity' => 3
-];
+);
 
-Qpm\Supervision\Supervisor::oneForOne($config)->start();
+Comos\Qpm\Supervision\Supervisor::oneForOne($config)->start();

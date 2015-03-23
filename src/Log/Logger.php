@@ -10,21 +10,21 @@ class Logger {
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	private static $_impl;
-	public static function err($msg, $context = []) {
+	public static function err($msg, $context = array()) {
 		if (!self::$_impl) return;
 		if ($msg instanceof \Exception) {
-			$context = ['exception'=>$msg];
+			$context = array('exception'=>$msg);
 			$msg = 'EXCEPTION[{exception}]';
 		}
 		self::$_impl->error($msg, $context);
 	}
-	public static function info($msg, $context = []) {
+	public static function info($msg, $context = array()) {
 		if (!self::$_impl) return;
 		self::$_impl->info($msg, $context);
 	}
-	public static function debug($msg, $context = []) {
+	public static function debug($msg, $context = array()) {
 		if (!self::$_impl) return;
-		self::$_impl->debug($msg, $context = []);
+		self::$_impl->debug($msg, $context = array());
 	}
 	
 	/**

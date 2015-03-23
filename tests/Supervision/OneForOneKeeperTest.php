@@ -29,21 +29,21 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
 
     public function configsForTestStartAll()
     {
-        return [
-            [
-                [
+        return array(
+            array(
+                array(
                     'factoryMethod' => function ()
                     {
                         return new OneForOneKeeperTest_Runnable();
                     }
-                ]
-            ],
-            [
-                [
-                    'runnableClass' => '\\' . __NAMESPACE__ . '\OneForOneKeeperTest_Runnable'
-                ]
-            ]
-        ];
+                )
+            ),
+            array(
+                array(
+                    'runnableClass' => '\\' . __NAMESPACE__ . '\OneForOneKeeperTest_Runnable',
+                )
+            )
+        );
     }
 
     /**
@@ -67,9 +67,9 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
         $config = $baseConfig;
         $config['quantity'] = $quantity = 3;
         if (! $useFactoryMethodToCreateKeeper) {
-            $keeper = new OneForOneKeeper([
+            $keeper = new OneForOneKeeper(array(
                 new Config($config)
-            ]);
+            ));
         } else {
             $keeper = \Comos\Qpm\Supervision\Supervisor::oneForOne($config)->getKeeper();
         }

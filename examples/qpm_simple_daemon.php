@@ -5,7 +5,7 @@
 
 require __DIR__.'/bootstrap.inc.php';
 
-use Qpm\Process\Process as Process;
+use Comos\Qpm\Process\Process as Process;
 
 //实际的工作内容
 function work() {

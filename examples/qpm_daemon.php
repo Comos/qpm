@@ -11,7 +11,7 @@
  */
 require __DIR__ . '/bootstrap.inc.php';
 
-use Qpm\Process\Process as Process;
+use Comos\Qpm\Process\Process as Process;
 
 // Start Daemon
 Process::fork(function ()

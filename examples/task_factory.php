@@ -5,9 +5,9 @@
 
 require __DIR__ . '/bootstrap.inc.php';
 
-Qpm\Log\Logger::useSimpleLogger(__FILE__ . '.log');
+Comos\Qpm\Log\Logger::useSimpleLogger(__FILE__ . '.log');
 
-class Task implements \Qpm\Process\Runnable
+class Task implements Comos\Qpm\Process\Runnable
 {
 
     public function __construct($taskId, $sleepTime)
@@ -27,7 +27,7 @@ class Task implements \Qpm\Process\Runnable
 class TaskFactory
 {
 
-    private $_plan = [
+    private $_plan = array(
         1,
         1,
         1,
@@ -42,7 +42,7 @@ class TaskFactory
         null,
         null,
         8
-    ];
+    );
 
     private $_index = 0;
 
@@ -76,11 +76,11 @@ class TaskFactory
 }
 $taskFactory = new TaskFactory();
 $config = [
-    'factoryMethod' => [
+    'factoryMethod' => array(
         $taskFactory,
         'fetchTask'
-    ],
+    ),
     'quantity' => 3
 ];
 
-Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();
+Comos\Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();

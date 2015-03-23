@@ -11,7 +11,7 @@ class ProcessStubTest extends \PHPUnit_Framework_TestCase
     protected function mockOfProcess()
     {
         return $this->getMockBuilder('\\Comos\Qpm\\Process\\Process')
-            ->setMethods([])
+            ->setMethods(array())
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -19,7 +19,7 @@ class ProcessStubTest extends \PHPUnit_Framework_TestCase
     protected function mockOfConfig()
     {
         return $this->getMockBuilder('\\Comos\Qpm\\Supervision\\Config')
-            ->setMethods(['getTimeout'])
+            ->setMethods(array('getTimeout'))
             ->disableOriginalConstructor()
             ->getMock();
     }
