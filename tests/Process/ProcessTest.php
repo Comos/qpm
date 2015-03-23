@@ -57,7 +57,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         {
             \file_put_contents($logFile, Process::current()->getPid());
         });
-        usleep(1000 * 20);
+        \usleep(1000 * 20);
         $pidFromLogFile = file_get_contents($this->_logFile);
         $this->assertEquals($child->getPid(), $pidFromLogFile);
         $this->assertEquals(Process::current()->getPid(), posix_getpid());
@@ -76,10 +76,11 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function testForkByCallable()
     {
         $current = Process::current();
-        $func = function ()
+        $logFile = $this->_logFile;
+        $func = function () use($logFile)
         {
             usleep(500 * 1000);
-            file_put_contents($this->_logFile, 'x', FILE_APPEND);
+            \file_put_contents($logFile, 'x', \FILE_APPEND);
         };
         Process::fork($func);
         Process::fork($func);
@@ -105,9 +106,10 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function testIsCurrent_False()
     {
         $current = Process::current();
-        $child = Process::fork(function () use($current)
+        $logFile = $this->_logFile;
+        $child = Process::fork(function () use($current, $logFile)
         {
-            \file_put_contents($this->_logFile, $current->isCurrent() ? 'yes' : 'no');
+            \file_put_contents($logFile, $current->isCurrent() ? 'yes' : 'no');
         });
         $st = 0;
         $wpid =\pcntl_wait($st);
@@ -119,7 +121,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $t0 = microtime(true);
         $child = Process::fork(function ()
         {
-            usleep(0.1 * 1000 * 1000);
+            \usleep(0.1 * 1000 * 1000);
         });
         $child->kill();
         $st = 0;

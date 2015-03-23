@@ -115,6 +115,6 @@ class OneForOneKeeperTest_Runnable implements \Comos\Qpm\Process\Runnable
 
     public function run()
     {
-        file_put_contents(self::$_file,\posix_getpid() . "," . \posix_getppid() . "\n", FILE_APPEND);
+        file_put_contents(self::$_file,\posix_getpid() . "," . \posix_getppid() . "\n", \FILE_APPEND);
     }
 }
