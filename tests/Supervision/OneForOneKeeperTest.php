@@ -74,7 +74,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
             $keeper = \Comos\Qpm\Supervision\Supervisor::oneForOne($config)->getKeeper();
         }
         $keeper->startAll();
-        $pids = [];
+        $pids = array();
         for ($i = 0; $i < $quantity; $i ++) {
             $status = 0;
             $pids[pcntl_wait($status)] = true;
