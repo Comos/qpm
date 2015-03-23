@@ -3,9 +3,9 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use \qpm\supervisor\KeeperRestartPolicy;
+use \Comos\Qpm\Supervision\KeeperRestartPolicy;
 
 class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {
 	protected $_policy,$_policy1;
@@ -15,8 +15,8 @@ class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {
 	}
 	
 	public function testCreate() {
-		$this->assertTrue($this->_policy instanceof \qpm\supervisor\KeeperRestartIgnoreTimePolicy);
-		$this->assertTrue($this->_policy1 instanceof \qpm\supervisor\KeeperRestartIgnoreTimePolicy);
+		$this->assertTrue($this->_policy instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreTimePolicy);
+		$this->assertTrue($this->_policy1 instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreTimePolicy);
 	}
 	
 	public function testCheck() {
@@ -27,7 +27,7 @@ class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {
 		$this->_policy1->check();
 	}
 	/**
-	 * @expectedException \qpm\supervisor\OutOfPolicyException
+	 * @expectedException \Comos\Qpm\Supervision\OutOfPolicyException
 	 */
 	public function testCheck_OutOfPolicy() {
 		$i = 4;
@@ -37,7 +37,7 @@ class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \qpm\supervisor\OutOfPolicyException
+	 * @expectedException \Comos\Qpm\Supervision\OutOfPolicyException
 	 */
 	public function testCheck_OutOfPolicy1() {
 		$i = 2;
@@ -68,7 +68,7 @@ class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {
 			$this->fail();
 		} catch(\Exception $ex) {
 			$this->assertEquals(0, $i);
-			$this->assertTrue($ex instanceof \qpm\supervisor\OutOfPolicyException);
+			$this->assertTrue($ex instanceof \Comos\Qpm\Supervision\OutOfPolicyException);
 		}
 		
 		$this->_policy1->check();
@@ -78,7 +78,7 @@ class KeeperRestartIgnoreTimePolicyTest extends \PhpUnit_Framework_TestCase {
 			$this->_policy1->check();
 			$this->fail();
 		} catch(\Exception $ex) {
-			$this->assertTrue($ex instanceof \qpm\supervisor\OutOfPolicyException);
+			$this->assertTrue($ex instanceof \Comos\Qpm\Supervision\OutOfPolicyException);
 		}
 	}
 	

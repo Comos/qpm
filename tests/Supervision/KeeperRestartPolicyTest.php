@@ -3,8 +3,8 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
-use \qpm\supervisor\KeeperRestartPolicy;
+namespace Comos\Qpm\Supervision;
+use \Comos\Qpm\Supervision\KeeperRestartPolicy;
 
 class KeeperRestartPolicyTest extends \PhpUnit_Framework_TestCase {
 	protected $_policy, $_policyMax2WithIn3;
@@ -27,7 +27,7 @@ class KeeperRestartPolicyTest extends \PhpUnit_Framework_TestCase {
 		$this->_policyMax3WithIn2->check();
 	}
 	/**
-	 * @expectedException \qpm\supervisor\OutOfPolicyException
+	 * @expectedException \Comos\Qpm\Supervision\OutOfPolicyException
 	 */
 	public function testCheck_OutOfPolicy() {
 		$this->_policy->check();
@@ -48,7 +48,7 @@ class KeeperRestartPolicyTest extends \PhpUnit_Framework_TestCase {
 		$this->_policyMax3WithIn2->check();
 		$this->_policyMax3WithIn2->check();
 		
-		$this->setExpectedException('\qpm\supervisor\OutOfPolicyException');
+		$this->setExpectedException('\Comos\Qpm\Supervision\OutOfPolicyException');
 		usleep(1000);	
 		$this->_policyMax3WithIn2->check();
 	}

@@ -3,10 +3,10 @@
  * @author bigbigant
  */
 
-namespace qpm\process;
+namespace Comos\Qpm\Process;
 
-use qpm\process\Process;
-use qpm\process\ChildProcess;
+use Comos\Qpm\Process\Process;
+use Comos\Qpm\Process\ChildProcess;
 
 class ChildProcessTest extends \PHPUnit_Framework_TestCase {
 	public function testProcessFork() {
@@ -20,8 +20,8 @@ class ChildProcessTest extends \PHPUnit_Framework_TestCase {
 	public function testGetStatus() {
 		$child = Process::fork(function() {usleep(100*1000);exit;});
 		$status = $child->getStatus();
-		$this->assertTrue($status instanceof \qpm\process\status\ForkedChildStatus);
-		$this->assertTrue($status instanceof \qpm\process\status\NotExitStatus);
+		$this->assertTrue($status instanceof \Comos\Qpm\Process\status\ForkedChildStatus);
+		$this->assertTrue($status instanceof \Comos\Qpm\Process\status\NotExitStatus);
 		$this->assertNull($status->getExitCode());
 	}
 }

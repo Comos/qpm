@@ -2,10 +2,10 @@
 /**
  * @author bigbigant
  */
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use \qpm\supervisor\OneForOneKeeper;
-use \qpm\supervisor\Config;
+use \Comos\Qpm\Supervision\OneForOneKeeper;
+use \Comos\Qpm\Supervision\Config;
 
 class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
 
     public function testIsSubClassOf()
     {
-        $this->assertTrue(is_subclass_of(__NAMESPACE__ . '\OneForOneKeeperTest_Runnable', '\qpm\process\Runnable'));
+        $this->assertTrue(is_subclass_of(__NAMESPACE__ . '\OneForOneKeeperTest_Runnable', '\Comos\Qpm\Process\Runnable'));
     }
 
     public function configsForTestStartAll()
@@ -71,7 +71,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
                 new Config($config)
             ]);
         } else {
-            $keeper = \qpm\supervisor\Supervisor::oneForOne($config)->getKeeper();
+            $keeper = \Comos\Qpm\Supervision\Supervisor::oneForOne($config)->getKeeper();
         }
         $keeper->startAll();
         $pids = [];
@@ -103,7 +103,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class OneForOneKeeperTest_Runnable implements \qpm\process\Runnable
+class OneForOneKeeperTest_Runnable implements \Comos\Qpm\Process\Runnable
 {
 
     private static $_file;

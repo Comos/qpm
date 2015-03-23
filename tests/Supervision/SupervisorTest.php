@@ -3,10 +3,10 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use qpm\supervisor\Supervisor;
-use qpm\process\Process;
+use Comos\Qpm\Supervision\Supervisor;
+use Comos\Qpm\Process\Process;
 
 class SupervisorTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {

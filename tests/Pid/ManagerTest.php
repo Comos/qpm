@@ -3,9 +3,9 @@
  * @author bigbigant
  */
 
-namespace qpm\pidfile;
+namespace Comos\Qpm\Pid;
 
-use qpm\pidfile\Manager;
+use Comos\Qpm\Pid\Manager;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase {
 	protected $_pidFile;
@@ -30,7 +30,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 
 	}
 	/**
-	 * @expectedException \qpm\pidfile\Exception
+	 * @expectedException \Comos\Qpm\Pid\Exception
 	 * @expectedExceptionMessage fail to write pid file:
 	 */
 	public function testStart_PidFileIsADir() {
@@ -53,7 +53,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 		$man1->start();
 	}
 	/**
-	 * @expectedException \qpm\pidfile\Exception
+	 * @expectedException \Comos\Qpm\Pid\Exception
 	 * @expectedExceptionMessage process exists, no need to start a new one 
 	 */
 	public function testStart_Start2TimesWithOnePidFile() {
@@ -65,7 +65,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 	}
 	public function testStart_Start2ProcessWithOnePidFile() {
 		$pidfile = $this->_pidFile;
-		$process = \qpm\process\Process::fork(function() use($pidfile) {
+		$process = \Comos\Qpm\Process\Process::fork(function() use($pidfile) {
 			$man = new Manager($pidfile);
 			$man->start();
 			usleep(200*1000);
@@ -74,18 +74,18 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 		usleep(100*1000);
 		$man1 = new Manager($pidfile);
 		$process1 = $man1->getProcess();
-		$this->assertTrue($process1 instanceof \qpm\process\Process);
+		$this->assertTrue($process1 instanceof \Comos\Qpm\Process\Process);
 		try {
 			$man2 = new Manager($this->_pidFile);
 			$man2->start();
 			$this->fail('expects Exception');
 		} catch(\Exception $e) {
 			$st = 0;
-			$pid = pcntl_wait($st);
-			$this->assertEquals($pid, $process->getPid());
-			$this->assertEquals($pid, $process1->getPid());
+			$pidfile = pcntl_wait($st);
+			$this->assertEquals($pidfile, $process->getPid());
+			$this->assertEquals($pidfile, $process1->getPid());
 			$this->assertTrue(\pcntl_wifexited($st));
-			$this->assertTrue($e instanceof \qpm\pidfile\Exception);
+			$this->assertTrue($e instanceof \Comos\Qpm\Pid\Exception);
 			$this->assertEquals('process exists, no need to start a new one', $e->getMessage());
 		}
 	}

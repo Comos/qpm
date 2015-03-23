@@ -2,7 +2,7 @@
 /**
  * @author bigbigant
  */
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
 class ProcessStubTest extends \PHPUnit_Framework_TestCase
 
@@ -10,7 +10,7 @@ class ProcessStubTest extends \PHPUnit_Framework_TestCase
 
     protected function mockOfProcess()
     {
-        return $this->getMockBuilder('\\qpm\\process\\Process')
+        return $this->getMockBuilder('\\Comos\Qpm\\Process\\Process')
             ->setMethods([])
             ->disableOriginalConstructor()
             ->getMock();
@@ -18,7 +18,7 @@ class ProcessStubTest extends \PHPUnit_Framework_TestCase
     
     protected function mockOfConfig()
     {
-        return $this->getMockBuilder('\\qpm\\supervisor\\Config')
+        return $this->getMockBuilder('\\Comos\Qpm\\Supervision\\Config')
             ->setMethods(['getTimeout'])
             ->disableOriginalConstructor()
             ->getMock();

@@ -2,10 +2,10 @@
 /**
  * @author bigbigant
  */
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use qpm\supervisor\Supervisor;
-use qpm\supervisor\StopSignal;
+use Comos\Qpm\Supervision\Supervisor;
+use Comos\Qpm\Supervision\StopSignal;
 
 class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +49,7 @@ class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TaskFactoryKeeperTest_Task implements \qpm\process\Runnable
+class TaskFactoryKeeperTest_Task implements \Comos\Qpm\Process\Runnable
 {
 
     private $id;

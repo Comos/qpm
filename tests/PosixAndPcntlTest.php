@@ -5,7 +5,7 @@
  * @author bigbigant
  */
 
-namespace qpm;
+namespace Comos\Qpm;
 
 
 class PosixAndPcntlTest extends \PHPUnit_Framework_TestCase

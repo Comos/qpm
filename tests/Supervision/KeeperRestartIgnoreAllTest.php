@@ -3,9 +3,9 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use \qpm\supervisor\KeeperRestartPolicy;
+use \Comos\Qpm\Supervision\KeeperRestartPolicy;
 
 class KeeperRestartIgnoreAllPolicyTest extends \PhpUnit_Framework_TestCase {
 	protected $_policy,$_policy1;
@@ -15,8 +15,8 @@ class KeeperRestartIgnoreAllPolicyTest extends \PhpUnit_Framework_TestCase {
 	}
 	
 	public function testCreate() {
-		$this->assertTrue($this->_policy instanceof \qpm\supervisor\KeeperRestartIgnoreAllPolicy);
-		$this->assertTrue($this->_policy1 instanceof \qpm\supervisor\KeeperRestartIgnoreAllPolicy);
+		$this->assertTrue($this->_policy instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreAllPolicy);
+		$this->assertTrue($this->_policy1 instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreAllPolicy);
 	}
 	
 	public function testCheck() {

@@ -3,9 +3,9 @@
  * @author bigbigant
  */
 
-namespace qpm\process;
+namespace Comos\Qpm\Process;
 
-use \qpm\process\Process;
+use \Comos\Qpm\Process\Process;
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +67,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $target must be a valid callback or qpm\process\Runnable
+     * @expectedExceptionMessage $target must be a valid callback or Comos\Qpm\Process\Runnable
      */
     public function testForkByCallable_Arg0NotAValidCallable()
     {
@@ -131,7 +131,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class ProcessTest_Runnable implements \qpm\process\Runnable
+class ProcessTest_Runnable implements \Comos\Qpm\Process\Runnable
 {
 
     public function __construct($file)
@@ -141,7 +141,7 @@ class ProcessTest_Runnable implements \qpm\process\Runnable
 
     /**
      *
-     * @see \qpm\process\Runnable::run()
+     * @see \Comos\Qpm\Process\Runnable::run()
      */
     public function run()
     {

@@ -3,17 +3,17 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use qpm\supervisor\Config;
-use qpm\process\Runnable;
+use Comos\Qpm\Supervision\Config;
+use Comos\Qpm\Process\Runnable;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	public function test__Construct() {
 		$data = array('factoryMethod' => function(){return null;});
 		$c = new Config($data);
 		$this->assertEquals(1, $c->getQuantity());
-		$this->assertTrue($c->getKeeperRestartPolicy() instanceof \qpm\supervisor\KeeperRestartIgnoreAllPolicy);
+		$this->assertTrue($c->getKeeperRestartPolicy() instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreAllPolicy);
 
 		$data = array('runnableClass' => __CLASS__);
 		new Config($data);
@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 		new Config($data);
 	}
 	/**
-	 * @expectedException qpm\supervisor\OutOfPolicyException
+	 * @expectedException Comos\Qpm\Supervision\OutOfPolicyException
 	 */
 	public function test__Construct_MaxRestartTimesIsStringButNumeric() {
 		$data = array('factoryMethod' => function(){return null;}, 'maxRestartTimes' => '1');
@@ -101,7 +101,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage runnableClass must be an implemention of \qpm\process\Runnable
+	 * @expectedExceptionMessage runnableClass must be an implemention of \Comos\Qpm\Process\Runnable
 	 */
 	public function test__Construct_RunnableClassIsNotRunnable() {
 		$data = ['runnableClass' => '\ArrayList'];
