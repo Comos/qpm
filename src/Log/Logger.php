@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-namespace qpm\log;
+namespace Comos\Qpm\Log;
 
 class Logger {
 	/**

@@ -3,5 +3,5 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 class Exception extends \Exception {}

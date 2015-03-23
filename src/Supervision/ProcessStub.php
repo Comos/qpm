@@ -3,9 +3,9 @@
  * @author bigbigant
  * @license GPL-3
  */
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use \qpm\process\Process;
+use \Comos\Qpm\Process\Process;
 
 class ProcessStub
 {
@@ -78,7 +78,7 @@ class ProcessStub
 
     /**
      *
-     * @return \qpm\process\Process
+     * @return \Comos\Qpm\Process\Process
      */
     public function getProcess()
     {
@@ -87,7 +87,7 @@ class ProcessStub
 
     /**
      *
-     * @return \qpm\supervisor\Config
+     * @return \Comos\Qpm\Supervision\Config
      */
     public function getConfig()
     {

@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
 class KeeperRestartPolicy
 {
@@ -16,7 +16,7 @@ class KeeperRestartPolicy
 
     /**
      *
-     * @return \qpm\supervisor\KeeperRestartPolicy
+     * @return \Comos\Qpm\Supervision\KeeperRestartPolicy
      */
     public static function create($maxRestartTimes, $withInSeconds)
     {

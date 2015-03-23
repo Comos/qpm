@@ -3,6 +3,6 @@
  * @author bigbigant
  */
 
-namespace qpm\pidfile;
+namespace Comos\Qpm\Pid;
 class Exception extends \Exception {
 }

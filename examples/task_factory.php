@@ -5,9 +5,9 @@
 
 require __DIR__ . '/bootstrap.inc.php';
 
-qpm\log\Logger::useSimpleLogger(__FILE__ . '.log');
+Qpm\Log\Logger::useSimpleLogger(__FILE__ . '.log');
 
-class Task implements \qpm\process\Runnable
+class Task implements \Qpm\Process\Runnable
 {
 
     public function __construct($taskId, $sleepTime)
@@ -83,4 +83,4 @@ $config = [
     'quantity' => 3
 ];
 
-qpm\supervisor\Supervisor::taskFactoryMode($config)->start();
+Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();

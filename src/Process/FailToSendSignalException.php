@@ -2,7 +2,8 @@
 /**
  * @author bigbigant
  */
+namespace Comos\Qpm\Process;
 
-namespace qpm\process;
-class FailToSendSignalException extends \RuntimeException {
+class FailToSendSignalException extends \RuntimeException
+{
 }

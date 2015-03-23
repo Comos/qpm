@@ -3,26 +3,26 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
-use qpm\log\Logger;
+namespace Comos\Qpm\Supervision;
+use Comos\Qpm\log\Logger;
 
 class Supervisor {
 	/**
-	 *@ return qpm\supervisor\Supervisor
+	 *@ return Comos\Qpm\Supervision\Supervisor
 	 */
 	public static function taskFactoryMode($conf) {
 		$config = new Config($conf);
 		return new self(new TaskFactoryKeeper($config));
 	}
 	/**
-	 * @return qpm\supervisor\Supervisor
+	 * @return Comos\Qpm\Supervision\Supervisor
 	 */
 	public static function oneForOne($config) {
 		$configs = [new Config($config)];
 		return self::_oneForOne($configs);
 	}
 	/**
-	 * @return qpm\supervisor\Supervisor
+	 * @return Comos\Qpm\Supervision\Supervisor
 	 */
 	public static function multiGroupOneForOne($configs) {
 		if (!is_array($configs) and !($configs instanceof \Iterator)) {
@@ -38,7 +38,7 @@ class Supervisor {
 		return self::_oneForOne($cs);
 	}
 	/**
-	 * @return qpm\supervisor\Supervisor
+	 * @return Comos\Qpm\Supervision\Supervisor
 	 */
 	private static function _oneForOne($configs) {
 		return new self(new OneForOneKeeper($configs));

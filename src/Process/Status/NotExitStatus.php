@@ -3,22 +3,22 @@
  * @author bigbigant
  */
 
-namespace qpm\process\status;
+namespace Comos\Qpm\Process\status;
 class NotExitStatus extends ForkedChildStatus {
 	/**
-	 * @see \qpm\process\status\ForkedChildStatus::isNormalExit()
+	 * @see \Comos\Qpm\Process\Status\ForkedChildStatus::isNormalExit()
 	 */
 	public function isNormalExit() {
 		return false;
 	}
 	/**
-	 * @see \qpm\process\status\ForkedChildStatus::getExitCode()
+	 * @see \Comos\Qpm\Process\Status\ForkedChildStatus::getExitCode()
 	 */
 	public function getExitCode() {
 		return null;
 	}
 	/**
-	 * @see \qpm\process\status\ForkedChildStatus::isSignaled()
+	 * @see \Comos\Qpm\Process\Status\ForkedChildStatus::isSignaled()
 	 */
 	public function isSignaled() {
 		return false;

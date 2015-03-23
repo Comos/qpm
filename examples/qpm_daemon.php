@@ -11,7 +11,7 @@
  */
 require __DIR__ . '/bootstrap.inc.php';
 
-use qpm\process\Process as Process;
+use Qpm\Process\Process as Process;
 
 // Start Daemon
 Process::fork(function ()
@@ -21,7 +21,7 @@ Process::fork(function ()
 });
 
 /**
- * start a worker(child) process.
+ * start a worker(child) Process.
  */
 function startWorker()
 {
@@ -31,7 +31,7 @@ function startWorker()
 /**
  * master.
  * 
- * to start and mantaince child processes.
+ * to start and mantaince child Processes.
  * 
  * @param integer $maxChildren
  */
@@ -51,7 +51,7 @@ function master($maxChildren)
 /**
  * worker
  * 
- * executes in child process
+ * executes in child Process
  */
 function worker()
 {

@@ -3,9 +3,9 @@
  * @author bigbigant
  */
 
-namespace qpm\log;
+namespace Comos\Qpm\Log;
 
-use qpm\log\Logger;
+use Qpm\Log\Logger;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase {
 	protected $_logFile; 

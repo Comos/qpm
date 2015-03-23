@@ -19,4 +19,4 @@ $config = [
     'quantity' => 3
 ];
 
-qpm\supervisor\Supervisor::oneForOne($config)->start();
+Qpm\Supervision\Supervisor::oneForOne($config)->start();

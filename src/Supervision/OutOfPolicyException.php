@@ -3,6 +3,6 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 class OutOfPolicyException extends Exception {
 }

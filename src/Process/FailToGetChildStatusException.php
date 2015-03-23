@@ -2,7 +2,8 @@
 /**
  * @author bigbigant
  */
+namespace Comos\Qpm\Process;
 
-namespace qpm\process;
-class FailToGetChildStatusException extends \RuntimeException {
+class FailToGetChildStatusException extends \RuntimeException
+{
 }

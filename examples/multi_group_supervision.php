@@ -33,4 +33,4 @@ $configs = [
     ]
 ];
 
-qpm\supervisor\Supervisor::multiGroupOneForOne($configs)->start();
+Qpm\Supervision\Supervisor::multiGroupOneForOne($configs)->start();

@@ -2,9 +2,9 @@
 /**
  * @author bigbigant
  */
-namespace qpm\pidfile;
+namespace Comos\Qpm\Pid;
 
-use qpm\process\Process;
+use Comos\Qpm\Process\Process;
 
 class Manager
 {
@@ -30,7 +30,7 @@ class Manager
     /**
      *
      * @return Process
-     * @throws \qpm\pidfile\Exception
+     * @throws \Comos\Qpm\pidfile\Exception
      */
     public function getProcess()
     {
@@ -38,14 +38,14 @@ class Manager
         if ($this->_processExists($pidFromFile)) {
             return Process::process($pidFromFile);
         }
-        throw new \qpm\pidfile\Exception('process does not exist');
+        throw new \Comos\Qpm\pidfile\Exception('process does not exist');
     }
 
     private function _getPidFromFile()
     {
         $pidInFile = @file_get_contents($this->_file);
         if ($pidInFile === false) {
-            throw new \qpm\pidfile\Exception('fail to read file');
+            throw new \Comos\Qpm\pidfile\Exception('fail to read file');
         }
         if (!\is_numeric($pidInFile)) {
             return null;
@@ -57,7 +57,7 @@ class Manager
     {
         $pidInFile = $this->_getPidFromFile();
         if ($this->_processExists($pidInFile)) {
-            throw new \qpm\pidfile\Exception('process exists, no need to start a new one');
+            throw new \Comos\Qpm\Pid\Exception('process exists, no need to start a new one');
         }
         return $pidInFile;
     }
@@ -75,7 +75,7 @@ class Manager
         $pid =\posix_getpid();
         $r = @\file_put_contents($this->_file, $pid);
         if ($r === false) {
-            throw new \qpm\pidfile\Exception('fail to write pid file:' . $this->_file);
+            throw new \Comos\Qpm\Pid\Exception('fail to write pid file:' . $this->_file);
         }
     }
 }

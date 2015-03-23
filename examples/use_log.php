@@ -5,7 +5,7 @@
 
 require __DIR__ . '/bootstrap.inc.php';
 
-qpm\log\Logger::useSimpleLogger(__FILE__ . '-simple-logger.log');
+Qpm\Log\Logger::useSimpleLogger(__FILE__ . '-simple-Logger.log');
 
 $func = function ()
 {
@@ -15,11 +15,11 @@ $func = function ()
     }
 };
 try {
-    qpm\supervisor\Supervisor::oneForOne([
+    Qpm\Supervision\Supervisor::oneForOne([
         'runnableCallback' => $func,
         'quantity' => 3,
         'maxRestartTimes' => 3
     ])->start();
 } catch (Exception $ex) {
-    qpm\log\Logger::err($ex);
+    Qpm\Log\Logger::err($ex);
 }

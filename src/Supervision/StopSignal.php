@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
 class StopSignal extends \Exception {
 }

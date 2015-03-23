@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-use qpm\process\Runnable;
+use Qpm\Process\Runnable;
 require __DIR__.'/bootstrap.inc.php';
 
 /**
@@ -23,11 +23,11 @@ class SpiderTaskFactory {
 	public function fetchTask() {
 		while (true) {
 			if (feof($this->_fh)) {
-				throw new qpm\supervisor\StopSignal();
+				throw new Qpm\Supervision\StopSignal();
 			}
 			$line = trim(fgets($this->_fh));
 			if ($line == 'END') {
-				throw new qpm\supervisor\StopSignal();
+				throw new Qpm\Supervision\StopSignal();
 			}
 			
 			if (empty($line)) {
@@ -44,9 +44,9 @@ class SpiderTaskFactory {
 
 /**
  * 在子进程中执行任务的类
- * 必须实现 qpm\process\Runnable 接口
+ * 必须实现 Qpm\Process\Runnable 接口
  */
-class SpiderTask implements qpm\process\Runnable {
+class SpiderTask implements Qpm\Process\Runnable {
 	private $_target;
 	
 	public function __construct($target) {
@@ -81,4 +81,4 @@ $config = [
 		'quantity' => 3,
 ];
 //启动Supervisor
-qpm\supervisor\Supervisor::taskFactoryMode($config)->start();
+Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();

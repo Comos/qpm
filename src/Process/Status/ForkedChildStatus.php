@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-namespace qpm\process\status;
+namespace Comos\Qpm\Process\Status;
 class ForkedChildStatus {
 	protected static $_statuses = array();
 	/**

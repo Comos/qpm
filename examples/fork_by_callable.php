@@ -12,6 +12,6 @@ $func = function() {
 };
 for($i=0; $i<10; $i++) {
 	//public function forkByCallable($callable) 
-	qpm\process\Process::fork($func);
+	Qpm\Process\Process::fork($func);
 }
 sleep(20);

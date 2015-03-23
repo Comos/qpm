@@ -3,7 +3,7 @@
  * @author bigbigant
  */
 
-namespace qpm\process;
+namespace Comos\Qpm\Process;
 /**
  * A instance of ChildProcess represents a fork in main process.
  * Generally, it returns by MainProcess::fork().

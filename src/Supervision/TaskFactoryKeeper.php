@@ -3,10 +3,10 @@
  * @author bigbigant
  */
 
-namespace qpm\supervisor;
+namespace Comos\Qpm\Supervision;
 
-use qpm\process\Process;
-use qpm\log\Logger;
+use Comos\Qpm\Process\Process;
+use Comos\Qpm\log\Logger;
 
 class TaskFactoryKeeper {
 	const SLEEP_TIME_AFTER_ERROR = 1000000;
@@ -33,7 +33,7 @@ class TaskFactoryKeeper {
 	public function startAll() {
 	}
 	/**
-	 * @throws qpm\supervisor\StopSignal
+	 * @throws Comos\Qpm\Supervision\StopSignal
 	 */
 	protected function _startOne() {
 		Logger::debug(__CLASS__.'::'.__METHOD__.'()');
@@ -94,13 +94,13 @@ class TaskFactoryKeeper {
 		foreach ($this->_children as $pid => $child) {
 			if ($t - $child[1] >= $this->_timeout)  {
 				try {
-					\qpm\log\Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
+					\Comos\Qpm\log\Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
 					$this->_onTimeout($child[0]);
 					$this->_killedChildren[$pid] = $child;
 					unset($this->_children[$pid]);
 					$child[0]->kill();
 				} catch (\Exception $ex) {
-					\qpm\log\Logger::err($ex);
+					\Comos\Qpm\log\Logger::err($ex);
 				}
 			}
 		}

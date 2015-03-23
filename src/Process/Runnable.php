@@ -2,12 +2,16 @@
 /**
  * @author bigbigant
  */
+namespace Comos\Qpm\Process;
 
-namespace qpm\process;
-interface Runnable {
-	/**
-	 * Returns exiting code. Zero means ok.
-	 * @return int
-	 */
-	public function run();
+interface Runnable
+{
+
+    /**
+     * Returns exiting code.
+     * Zero means ok.
+     * 
+     * @return int
+     */
+    public function run();
 }

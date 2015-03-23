@@ -3,6 +3,6 @@
  * @author bigbigant
  */
 
-namespace qpm\process;
+namespace Comos\Qpm\Process;
 class Exception extends \Exception {
 }
