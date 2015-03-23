@@ -21,7 +21,7 @@
     "suggest": {
     },
     "autoload": {
-        "psr-4": {"qpm\\": "library/qpm"}
+        "psr-4": {"Comos\\Qpm\\": "src"}
     },
     "provide": {
     }
