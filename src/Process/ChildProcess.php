@@ -30,7 +30,7 @@ class ChildProcess extends Process {
 	 */
 	public function getStatus() {
 		$this->_wait();
-		return status\ForkedChildStatus::create($this->_status, $this->_exited);
+		return Status\ForkedChildStatus::create($this->_status, $this->_exited);
 	}
 	/**
 	 * @throws FailToGetChildStatusException
@@ -40,7 +40,7 @@ class ChildProcess extends Process {
 		if ($this->_exited) {
 			return;
 		}
-		$pid = pcntl_waitpid($this->getPid(), $this->_status, WNOHANG|WUNTRACED);
+		$pid = \pcntl_waitpid($this->getPid(), $this->_status, \WNOHANG|\WUNTRACED);
 		if ($pid == $this->getPid()) {
 			$this->_exited = true;
 		}
