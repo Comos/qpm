@@ -150,7 +150,7 @@ class OneForOneKeeper
             try {
                 $stub->getProcess()->kill();
             } catch (Exception $ex) {
-                Logger::err('fail to kill process', ['exception'=>$ex]);
+                Logger::err('fail to kill process', array('exception'=>$ex));
             }
         }
         

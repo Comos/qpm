@@ -75,12 +75,12 @@ class TaskFactory
     }
 }
 $taskFactory = new TaskFactory();
-$config = [
+$config = array(
     'factoryMethod' => array(
         $taskFactory,
         'fetchTask'
     ),
     'quantity' => 3
-];
+);
 
 Comos\Qpm\Supervision\Supervisor::taskFactoryMode($config)->start();
