@@ -143,7 +143,7 @@ class ProcessTest_Runnable implements \Comos\Qpm\Process\Runnable
      */
     public function run()
     {
-        usleep(500 * 1000);
-        file_put_contents($this->_logFile, 'Y', FILE_APPEND);
+        \usleep(500 * 1000);
+        \file_put_contents($this->_logFile, 'Y', FILE_APPEND);
     }
 }

@@ -62,7 +62,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	 */
 	public function test__Construct_MaxRestartTimesIsStringButNumeric() {
 		$data = array('factoryMethod' => function(){return null;}, 'maxRestartTimes' => '1');
-		$policy = (new Config($data))->getKeeperRestartPolicy();
+		$c = new Config($data);
+		$policy = $c->getKeeperRestartPolicy();
 		try {
 			$policy->check();
 		} catch(\Exception $ex) {
