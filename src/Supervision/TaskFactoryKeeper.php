@@ -24,7 +24,7 @@ class TaskFactoryKeeper {
 	}
 	
 	public function restart() {
-		Logger::debug(__CLASS__.'::'.__METHOD__.'()');
+		Logger::debug(__METHOD__.'()');
 		$this->stop();
 		$this->startAll();
 		$this->keep();
@@ -36,12 +36,12 @@ class TaskFactoryKeeper {
 	 * @throws Comos\Qpm\Supervision\StopSignal
 	 */
 	protected function _startOne() {
-		Logger::debug(__CLASS__.'::'.__METHOD__.'()');
+		Logger::debug(__METHOD__.'()');
 		$target = null;
 		try {
 			$target = \call_user_func($this->_config->getFactoryMethod());
 		} catch(StopSignal $ex) {
-			Logger::info(__CLASS__.'::'.__LINE__.'() received stop signal');
+			Logger::info('received stop signal');
 			throw $ex;
 		} catch (\Exception $ex) {
 			Logger::err($ex);
@@ -53,10 +53,10 @@ class TaskFactoryKeeper {
 		}
 		try {
 			$process = Process::fork($target);
-			$this->_children[$process->getPid()] = array($process, microtime(true)); 
+			$this->_children[$process->getPid()] = array($process, microtime(true));
 		} catch(\Exception $ex) {
-			Logger::err('{exception}', array('exception'=>$ex));
-			usleep(self::SLEEP_TIME_AFTER_ERROR);
+			Logger::err('exception', array('exception'=>$ex));
+			\usleep(self::SLEEP_TIME_AFTER_ERROR);
 		}
 	}
 	
@@ -64,7 +64,7 @@ class TaskFactoryKeeper {
 	 * @return void
 	 */
 	public function keep() {
-		Logger::debug(__CLASS__.'::'.__METHOD__.'()');
+		Logger::debug(__METHOD__.'()');
 		$this->_stoped = false;
 		try {
 			while (!$this->_stoped) {
@@ -75,14 +75,14 @@ class TaskFactoryKeeper {
 					\usleep($this->_checkingInterval);
 				}
 				$status = null;
-				$pid = \pcntl_wait($status, WNOHANG);
+				$pid = \pcntl_wait($status, \WNOHANG);
 				if ($pid > 0) {
 					$this->_processExit($pid);
 				}
 				$this->_checkTimeout();
 			}
 		} catch (StopSignal $ex) {
-			Logger::info(__CLASS__.'::'.__METHOD__.'() received a StopSignal:'.$ex);
+			Logger::info(__METHOD__.'() received a StopSignal:'.$ex);
 			$this->_waitToEnd();
 		}
 	}
@@ -94,27 +94,28 @@ class TaskFactoryKeeper {
 		foreach ($this->_children as $pid => $child) {
 			if ($t - $child[1] >= $this->_timeout)  {
 				try {
-					\Comos\Qpm\Log\Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
+					Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
 					$this->_onTimeout($child[0]);
 					$this->_killedChildren[$pid] = $child;
 					unset($this->_children[$pid]);
 					$child[0]->kill();
 				} catch (\Exception $ex) {
-					\Comos\Qpm\Log\Logger::err($ex);
+					Logger::err($ex);
 				}
 			}
 		}
 	}
 	protected function _onTimeout($process) {
+	    Logger::info('process timeout');
 		if ($this->_onTimeoutCallback) {
 			$m = $this->_onTimeoutCallback;
-			$m($process);
+			\call_user_func($m, $process);
 		}
 	}
 	protected function _processExit($pid) {
-		Logger::debug(__CLASS__.'::'.__METHOD__."($pid)");
+		Logger::debug(__METHOD__."($pid)");
 		if (!isset($this->_children[$pid]) && !isset($this->_killedChildren[$pid])) {
-			Logger::err(__CLASS__.'::'.__METHOD__.'() none managed childprocess exists');
+			Logger::err(__METHOD__.'() none managed childprocess exists');
 			return;
 		}
 		unset($this->_children[$pid]);

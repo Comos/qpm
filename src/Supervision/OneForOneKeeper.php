@@ -15,29 +15,34 @@ class OneForOneKeeper
      *
      * @var integer
      */
-    const DEFAULT_RESTART_INTERVAL = 100000;
+    const DEFAULT_RESTART_INTERVAL = 50000;
+
     /**
-     * 
+     *
      * @var boolean
      */
     protected $_stoped = false;
+
     /**
-     * 
+     *
      * @var Process
      */
     protected $_currentProcess;
+
     /**
-     * 
+     *
      * @var ProcessStub[]
      */
     protected $_children = array();
+
     /**
-     * 
+     *
      * @var Config[]
      */
     protected $_configs;
+
     /**
-     * 
+     *
      * @var KeeperRestartPolicy[]
      */
     protected $_policies;
@@ -72,7 +77,7 @@ class OneForOneKeeper
 
     protected function _startOne($groupId, Config $config)
     {
-        $target = call_user_func($config->getFactoryMethod());
+        $target = \call_user_func($config->getFactoryMethod());
         $process = Process::fork($target);
         $this->_children[$process->getPid()] = new ProcessStub($process, $config, $groupId);
     }
@@ -86,11 +91,11 @@ class OneForOneKeeper
         $this->_stoped = false;
         while (! $this->_stoped) {
             $status = null;
-            $pid = \pcntl_wait($status, \WNOHANG);
+            $pid =\pcntl_wait($status, \WNOHANG);
             if ($pid > 0) {
                 $this->_processExit($pid);
             } else {
-                usleep(self::DEFAULT_RESTART_INTERVAL);
+                \usleep(self::DEFAULT_RESTART_INTERVAL);
             }
             $this->_checkTimeout();
         }
@@ -104,22 +109,25 @@ class OneForOneKeeper
                 continue;
             }
             try {
-                \Comos\Qpm\Log\Logger::info("process[" . $stub->getProcess->getPid() . "] will be killed for timeout");
+                Logger::info("process[" . $stub->getProcess()->getPid() . "] will be killed for timeout");
                 $this->_onTimeout($stub);
                 $this->_killedChildren[$pid] = $stub;
-                unset($this->_children[$pid]);
                 $stub->getProcess()->kill();
             } catch (\Exception $ex) {
-                \Comos\Qpm\Log\Logger::err($ex);
+                Logger::err($ex);
             }
         }
     }
 
     protected function _onTimeout(ProcessStub $stub)
     {
-        $onTimeoutCallback = $stub->getConfig()->getOnTimeout();
-        if ($onTimeoutCallback) {
-            $onTimeoutCallback($stub->getProcess());
+        try {
+            $onTimeoutCallback = $stub->getConfig()->getOnTimeout();
+            if ($onTimeoutCallback) {
+               \call_user_func($onTimeoutCallback, $stub->getProcess());
+            }
+        } catch (\Exception $ex) {
+            Logger::err($ex);
         }
     }
 
@@ -150,13 +158,15 @@ class OneForOneKeeper
             try {
                 $stub->getProcess()->kill();
             } catch (Exception $ex) {
-                Logger::err('fail to kill process', array('exception'=>$ex));
+                Logger::err('fail to kill process', array(
+                    'exception' => $ex
+                ));
             }
         }
         
         while (count($this->_children)) {
             $status = 0;
-            $pid = \pcntl_wait($status);
+            $pid =\pcntl_wait($status);
             unset($this->_children[$pid]);
         }
     }

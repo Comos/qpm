@@ -8,14 +8,14 @@ use Comos\Qpm\Log\Logger;
 
 class Supervisor {
 	/**
-	 *@ return Comos\Qpm\Supervision\Supervisor
+	 *@ return Supervisor
 	 */
 	public static function taskFactoryMode($conf) {
 		$config = new Config($conf);
 		return new self(new TaskFactoryKeeper($config));
 	}
 	/**
-	 * @return Comos\Qpm\Supervision\Supervisor
+	 * @return Supervisor
 	 */
 	public static function oneForOne($config) {
 		$configs = array(new Config($config));

@@ -24,7 +24,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
 
     public function testIsSubClassOf()
     {
-        $this->assertTrue(is_subclass_of(__NAMESPACE__ . '\OneForOneKeeperTest_Runnable', '\Comos\Qpm\Process\Runnable'));
+        $this->assertTrue(is_subclass_of(__NAMESPACE__ . '\\OneForOneKeeperTest_Runnable', '\\Comos\\Qpm\\Process\\Runnable'));
     }
 
     public function configsForTestStartAll()
@@ -77,7 +77,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
         $pids = array();
         for ($i = 0; $i < $quantity; $i ++) {
             $status = 0;
-            $pids[pcntl_wait($status)] = true;
+            $pids[\pcntl_wait($status)] = true;
         }
         $currentPid =\posix_getpid();
         $r =\file_get_contents($this->_logFile);
