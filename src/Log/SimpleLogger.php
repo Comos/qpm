@@ -15,9 +15,11 @@ class SimpleLogger extends \Psr\Log\AbstractLogger {
 	
 	public function log($level, $message, array $context = array()) {
 		$row = $message;
+		
 		foreach ($context as $key=>$val) {
-			$row = str_replace('{'.$key.'}', strval($val), $row);
+			$row = \str_replace('{'.$key.'}', strval($val), $row);
 		}
+		
 		$time = date('Ymd-H:i:s');
 		$row = "TIME[$time]\tLEVEL[$level]\t$row\n";
 		\file_put_contents($this->_file, $row, \FILE_APPEND);

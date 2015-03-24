@@ -54,20 +54,20 @@ class Supervisor {
 	}
 	
 	public function start() {
-		Logger::debug(__CLASS__.'::'.__METHOD__.' before keeper startall');
+		Logger::debug(__METHOD__.' before-startall');
 		$this->_keeper->startAll();
-		Logger::debug(__CLASS__.'::'.__METHOD__.' before before keeper keep');
+		Logger::debug(__METHOD__.' before-keep');
 		$this->_keeper->keep();
-		Logger::debug(__CLASS__.'::'.__METHOD__.' after keeper keep');
+		Logger::debug(__METHOD__.' after-keep');
 	}
 	
 	public function stop() {
-		Logger::debug(__CLASS__.'::'.__METHOD__.' before keeper stop');
+		Logger::debug(__METHOD__.' before-stop');
 		$this->_keeper->stop();
-		Logger::debug(__CLASS__.'::'.__METHOD__.' after keeper stop');
+		Logger::debug(__METHOD__.' after-stop');
 	}
 	
 	public function registerSignalHandler() {
-		pcntl_signal(SIGTERM, array($this, 'stop'));
+		\pcntl_signal(\SIGTERM, array($this, 'stop'));
 	}
 }

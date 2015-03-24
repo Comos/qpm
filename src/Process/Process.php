@@ -4,6 +4,7 @@
  */
 namespace Comos\Qpm\Process;
 
+use Comos\Qpm\Log\Logger;
 class Process
 {
 
@@ -164,6 +165,7 @@ class Process
             try {
                 $code = call_user_func($target);
             } catch (\Exception $ex) {
+                Logger::err($ex);
                 $code = - 1;
             }
             if (!\is_int($code)) {

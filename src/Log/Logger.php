@@ -14,7 +14,7 @@ class Logger {
 		if (!self::$_impl) return;
 		if ($msg instanceof \Exception) {
 			$context = array('exception'=>$msg);
-			$msg = 'EXCEPTION[{exception}]';
+			$msg = 'exception';
 		}
 		self::$_impl->error($msg, $context);
 	}

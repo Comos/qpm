@@ -11,7 +11,6 @@ if (is_file($autoloadFile)) {
 } else {
     spl_autoload_register(
 		function ($class) {
-		    var_dump($class);
 			$prefix = 'Comos\\Qpm\\';
 		    $baseDir = __DIR__ . DIRECTORY_SEPARATOR. 'src';
 		    $len = strlen($prefix);
@@ -20,7 +19,6 @@ if (is_file($autoloadFile)) {
 		    }
 		    $relativeClass = substr($class, $len);
 		    $file = $baseDir .DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $relativeClass) . '.php';
-		    var_dump($file);
 		    if (file_exists($file)) {
 		        require $file;
 		    }
