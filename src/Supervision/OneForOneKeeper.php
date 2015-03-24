@@ -103,31 +103,8 @@ class OneForOneKeeper
 
     protected function _checkTimeout()
     {
-        foreach ($this->_children as $pid => $stub) {
-            
-            if (! $stub->isTimeout()) {
-                continue;
-            }
-            try {
-                Logger::info("process[" . $stub->getProcess()->getPid() . "] will be killed for timeout");
-                $this->_onTimeout($stub);
-                $this->_killedChildren[$pid] = $stub;
-                $stub->getProcess()->kill();
-            } catch (\Exception $ex) {
-                Logger::err($ex);
-            }
-        }
-    }
-
-    protected function _onTimeout(ProcessStub $stub)
-    {
-        try {
-            $onTimeoutCallback = $stub->getConfig()->getOnTimeout();
-            if ($onTimeoutCallback) {
-               \call_user_func($onTimeoutCallback, $stub->getProcess());
-            }
-        } catch (\Exception $ex) {
-            Logger::err($ex);
+        foreach ($this->_children as $stub) {
+            $stub->dealWithTimeout();
         }
     }
 

@@ -5,7 +5,7 @@
  */
 namespace Comos\Qpm\Supervision;
 
-use \Comos\Qpm\Process\Process;
+use Comos\Qpm\Process\Process;
 
 class ProcessStub
 {
@@ -36,6 +36,12 @@ class ProcessStub
 
     /**
      *
+     * @var boolean
+     */
+    private $isDealedWithTimeout = false;
+
+    /**
+     *
      * @param Process $process            
      * @param Config $config            
      * @param float $startTime            
@@ -44,7 +50,7 @@ class ProcessStub
     {
         $this->process = $process;
         $this->config = $config;
-        $this->startTime = \is_null($startTime) ? \microtime(true) : $startTime;
+        $this->startTime =\is_null($startTime) ?\microtime(true) : $startTime;
         $this->groupId = $groupId;
     }
 
@@ -72,7 +78,7 @@ class ProcessStub
             return false;
         }
         
-        $duration = \microtime(true) - $this->getStartTime();
+        $duration =\microtime(true) - $this->getStartTime();
         return $duration > $this->config->getTimeout();
     }
 
@@ -92,5 +98,51 @@ class ProcessStub
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     *
+     * @throws \Comos\Qpm\Process\Exception
+     * @return boolean
+     */
+    public function dealWithTimeout()
+    {
+        if (! $this->isTimeout()) {
+            return false;
+        }
+        
+        if ($this->isDealedWithTimeout) {
+            return false;
+        }
+        
+        $this->isDealedWithTimeout = true;
+        
+        \Comos\Qpm\Log\Logger::info("process[" . $this->getProcess()->getPid() . "] will be killed for timeout");
+        $this->invokeOnTimeout();
+        try {
+            $this->getProcess()->kill();
+        } catch (\Exception $e) {
+            \Comos\Qpm\Log\Logger::err($e);
+            return false;
+        }
+        return true;
+    }
+    /**
+     * 
+     * @return boolean
+     */
+    private function invokeOnTimeout()
+    {
+        $onTimeout = $this->getConfig()->getOnTimeout();
+        if (! $onTimeout) {
+            return false;
+        }
+        try {
+           \call_user_func($onTimeout, $this->getProcess());
+        } catch (\Exception $e) {
+            \Comos\Qpm\Log\Logger::err($e);
+            return false;
+        }
+        return true;
     }
 }
