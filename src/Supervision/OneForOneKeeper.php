@@ -77,7 +77,7 @@ class OneForOneKeeper
 
     protected function _startOne($groupId, Config $config)
     {
-        $target = \call_user_func($config->getFactoryMethod());
+        $target =\call_user_func($config->getFactoryMethod());
         $process = Process::fork($target);
         $this->_children[$process->getPid()] = new ProcessStub($process, $config, $groupId);
     }
@@ -91,12 +91,13 @@ class OneForOneKeeper
         $this->_stoped = false;
         while (! $this->_stoped) {
             $status = null;
-            $pid =\pcntl_wait($status, \WNOHANG);
+            $pid = \pcntl_wait($status, \WNOHANG);
             if ($pid > 0) {
                 $this->_processExit($pid);
-            } else {
-                \usleep(self::DEFAULT_RESTART_INTERVAL);
+                continue;
             }
+            $this->_checkTimeout();
+            \usleep(self::DEFAULT_RESTART_INTERVAL);
             $this->_checkTimeout();
         }
     }
@@ -134,7 +135,7 @@ class OneForOneKeeper
         foreach ($this->_children as $stub) {
             try {
                 $stub->getProcess()->kill();
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 Logger::err('fail to kill process', array(
                     'exception' => $ex
                 ));
@@ -143,7 +144,7 @@ class OneForOneKeeper
         
         while (count($this->_children)) {
             $status = 0;
-            $pid =\pcntl_wait($status);
+            $pid = \pcntl_wait($status);
             unset($this->_children[$pid]);
         }
     }

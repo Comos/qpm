@@ -7,14 +7,14 @@ namespace Comos\Qpm\Supervision;
 
 /**
  *@example
- new Config([
-	'factoryMethod' => function() {...;},//or 'runnableClass' => 'ClassName'
-	//factoryMethod or runnableClass or runnableCallback is required
-	'quantity' => 3,//how many process to keep,default is 1
-	'maxRestartTimes' => 3,//default is -1,-1 means ignore it
-	'withInSeconds' => 10,//default is -1,means ignore it
-	'timeout' => 10,//default is -1, means ignore it
- ]);
+ *  > new Config([
+ *  > 'factoryMethod' => function() {...;},//or 'runnableClass' => 'ClassName'
+ *  > //factoryMethod or runnableClass or runnableCallback is required
+ *  > 'quantity' => 3,//how many process to keep,default is 1
+ *  > 'maxRestartTimes' => 3,//default is -1,-1 means ignore it
+ *  > 'withInSeconds' => 10,//default is -1,means ignore it
+ *  > 'timeout' => 10,//default is -1, means ignore it
+ *  > ]);
  *
  */
 class Config {

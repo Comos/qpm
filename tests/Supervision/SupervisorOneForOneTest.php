@@ -14,7 +14,6 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
     
     protected function setUp()
     {
-        Logger::useSimpleLogger(__FILE__.'.log');
         parent::setUp();
         $this->lastId = 0;
         $this->logFile = __FILE__ . '.data';
@@ -32,7 +31,7 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
     {
         $conf = array(
             'runnableCallback' => array($this, 'runnableCallback'),
-            'quantity' => 2,
+            'quantity' => 3,
             'timeout' => 1,
             'maxRestartTimes' => 10,
             'withIn' => 30
@@ -45,7 +44,7 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
         }
         $data = \file_get_contents($this->logFile);
         $ms = null;
-        $this->assertEquals(1, preg_match('/^b{10,12}$/', $data, $ms));
+        $this->assertEquals(1, preg_match('/^b{13}$/', $data, $ms));
     }
 
     public function runnableCallback()
@@ -74,7 +73,7 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
         $data = \file_get_contents($this->logFile);
         $ms = null;
         $this->assertEquals(1, preg_match('/^b{10,12}$/', $data, $ms));
-        $this->assertLessThan(3, $this->onTimeoutCount - 10);
+        $this->assertEquals(12, $this->onTimeoutCount);
     }
     
     public function onTimeout($process)
