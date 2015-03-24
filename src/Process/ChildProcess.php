@@ -26,7 +26,7 @@ class ChildProcess extends Process {
 		return !$this->_exited;
 	}
 	/**
-	 * @return status\ForkedChildStatus 
+	 * @return Status\ForkedChildStatus 
 	 */
 	public function getStatus() {
 		$this->_wait();

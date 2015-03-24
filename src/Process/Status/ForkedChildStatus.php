@@ -17,7 +17,7 @@ class ForkedChildStatus
 
     /**
      *
-     * @param int $statusCode            
+     * @param int $statusCode
      * @return ForkedChildStatus
      */
     public static function create($statusCode, $exited = true)
@@ -42,7 +42,7 @@ class ForkedChildStatus
      */
     public function isNormalExit()
     {
-        return\pcntl_wifexited($this->_code);
+        return \pcntl_wifexited($this->_code);
     }
 
     /**
@@ -51,7 +51,7 @@ class ForkedChildStatus
      */
     public function getExitCode()
     {
-        return\pcntl_wexitstatus($this->_code);
+        return \pcntl_wexitstatus($this->_code);
     }
 
     /**
@@ -60,7 +60,7 @@ class ForkedChildStatus
      */
     public function isSignaled()
     {
-        return\pcntl_wifsignaled($this->_code);
+        return \pcntl_wifsignaled($this->_code);
     }
 
     /**
@@ -69,7 +69,7 @@ class ForkedChildStatus
      */
     public function isStopped()
     {
-        return\pcntl_wifstopped($this->_code);
+        return \pcntl_wifstopped($this->_code);
     }
 
     /**
@@ -78,7 +78,7 @@ class ForkedChildStatus
      */
     public function getTerminationSignal()
     {
-        return\pcntl_wtermsig($this->_code);
+        return \pcntl_wtermsig($this->_code);
     }
 
     /**
@@ -87,7 +87,7 @@ class ForkedChildStatus
      */
     public function getStopSignal()
     {
-        return\pcntl_wstopsig($this->_code);
+        return \pcntl_wstopsig($this->_code);
     }
 
     /**
