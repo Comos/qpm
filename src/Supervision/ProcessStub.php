@@ -6,6 +6,7 @@
 namespace Comos\Qpm\Supervision;
 
 use Comos\Qpm\Process\Process;
+use Comos\Qpm\Log\Logger;
 
 class ProcessStub
 {
@@ -39,6 +40,16 @@ class ProcessStub
      * @var boolean
      */
     private $isDealedWithTimeout = false;
+    /**
+     * 
+     * @var boolean
+     */
+    private $isDealedWithTermTimeout = false;
+    /**
+     * 
+     * @var float
+     */
+    private $termTime;
 
     /**
      *
@@ -112,21 +123,48 @@ class ProcessStub
         }
         
         if ($this->isDealedWithTimeout) {
+            if (!$this->config->isKillOnTimeout()) {
+                $this->dealWithTermTimeout();
+            }
             return false;
         }
         
         $this->isDealedWithTimeout = true;
         
-        \Comos\Qpm\Log\Logger::info("process[" . $this->getProcess()->getPid() . "] will be killed for timeout");
+        Logger::info("process[" . $this->getProcess()->getPid() . "] will be terminated for timeout");
         $this->invokeOnTimeout();
         try {
-            $this->getProcess()->kill();
+            if ($this->config->isKillOnTimeout()) {
+                $this->getProcess()->kill();
+            } else {
+                $this->termTime = microtime(true);
+                $this->getProcess()->terminate();
+            }
+            
         } catch (\Exception $e) {
-            \Comos\Qpm\Log\Logger::err($e);
+            Logger::err($e);
             return false;
         }
         return true;
     }
+    
+    protected function dealWithTermTimeout()
+    {
+        if ($this->isDealedWithTermTimeout) {
+            return false;
+        }
+        if ((microtime(true) - $this->termTime) <= $this->config->getTermTimeout()) {
+            return false;
+        }
+        try {
+            $this->getProcess()->kill();
+            $this->isDealedWithTermTimeout = true;
+        } catch(\Exception $e) {
+            Logger::err($e);
+            return false;
+        }
+        return true;
+    } 
     /**
      * 
      * @return boolean

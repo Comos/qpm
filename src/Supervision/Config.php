@@ -26,11 +26,11 @@ class Config
 
     const DEFAULT_WITH_IN_SECONDS = - 1;
 
-    const DEFAULT_TIMEOUT = - 1;
+    const DEFAULT_TIMEOUT = - 1.0;
     
     const DEFAULT_TERM_SIG = \SIGKILL;
     
-    const DEFAULT_TERM_TIMEOUT = -1;
+    const DEFAULT_TERM_TIMEOUT = -1.0;
 
     protected $_factory;
 
@@ -61,19 +61,19 @@ class Config
     {
         return clone ($this->_keeperRestartPolicy);
     }
-    
+    /**
+     * @return float
+     */
     public function getTermTimeout()
     {
-        
+        return $this->_termTimeout;
     }
-    
-    public function getTermSig()
+    /**
+     * @return boolean
+     */
+    public function isKillOnTimeout()
     {
-        
-    }
-    
-    public function needKillAgain() {
-        
+        return $this->_termTimeout <= 0.0;
     }
     
     public function getQuantity()
@@ -101,17 +101,18 @@ class Config
      */
     public function isTimeoutEnabled()
     {
-        return $this->getTimeout() > 0;
+        return $this->getTimeout() > 0.0;
     }
     
     private function _initTermTimeout($config) {
-        
+        $q = self::_fetchFloatValue($config, "termTimeout", self::DEFAULT_TERM_TIMEOUT);
+        $o = $q;
+        if ($q <= 0.0) {
+            $q = -1.0;
+        }
+        $this->_termTimeout = $q;
     }
     
-    private function _initTermSig($config) {
-        
-    }
-
     private function _initKeeperRestartPolicy($config)
     {
         $max = self::_fetchIntValue($config, 'maxRestartTimes', self::DEFAULT_MAX_RESTART_TIMES);

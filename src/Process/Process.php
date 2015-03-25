@@ -112,11 +112,11 @@ class Process
     }
 
     /**
-     * @throw FailToSendSignalException
+     * @throws FailToSendSignalException
      */
     public function kill()
     {
-        return $this->doKill(\SIGKILL);
+        return $this->sendSignal(\SIGKILL);
     }
 
     /**
@@ -124,10 +124,13 @@ class Process
      */
     public function terminate()
     {
-        return $this->doKill(\SIGTERM);
+        return $this->sendSignal(\SIGTERM);
     }
-
-    public function doKill($sig)
+    
+    /**
+     * @throw FailToSendSignalException
+     */
+    public function sendSignal($sig)
     {
         $result = \posix_kill($this->_pid, $sig);
         if (false === $result) {
@@ -135,24 +138,27 @@ class Process
         }
         return $result;
     }
+    /**
+     * @deprecated will be alternated sendSignal
+     * @param integer $sig
+     * @return boolean
+     */
+    public function doKill($sig)
+    {
+        return $this->sendSignal($sig);
+    }
 
     /**
      * to fork to create a process and run $target in there
      *
-     * @param
-     *            \Comos\Qpm\Process\Runnable | \callable $target
-     * @return \Comos\Qpm\Process\ChildProcess
+     * @param Runnable | \callable $target
+     * @return ChildProcess
+     * @throws \InvalidArgumentException
      */
     public static function fork($target)
     {
-        if ($target instanceof \Comos\Qpm\Process\Runnable) {
-            $target = array(
-                $target,
-                'run'
-            );
-        }
-        if (!\is_callable($target)) {
-            throw new \InvalidArgumentException('$target must be a valid callback or Comos\Qpm\\Process\\Runnable');
+        if (!\is_callable($target) && !$target instanceof Runnable) {
+            throw new \InvalidArgumentException('$target must be a valid callback or Comos\\Qpm\\Process\\Runnable');
         }
         
         $pid = \pcntl_fork();
@@ -163,7 +169,11 @@ class Process
         
         if ($pid == 0) {
             try {
-                $code = call_user_func($target);
+                if ($target instanceof Runnable) {
+                    $code = $target->run();
+                } else {
+                    $code = \call_user_func($target);
+                }
             } catch (\Exception $ex) {
                 Logger::err($ex);
                 $code = - 1;
