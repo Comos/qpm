@@ -5,7 +5,11 @@
 
 require __DIR__ . '/bootstrap.inc.php';
 
-Comos\Qpm\Log\Logger::useSimpleLogger(__FILE__ . '-simple-Logger.log');
+$logFile = __FILE__ . '-simple-Logger.log';
+
+Comos\Qpm\Log\Logger::useSimpleLogger($logFile);
+
+echo "Execute 'tail $logFile' to see the lastest logs.\n";
 
 $func = function ()
 {
@@ -16,7 +20,7 @@ $func = function ()
 };
 try {
     Comos\Qpm\Supervision\Supervisor::oneForOne(array(
-        'runnableCallback' => $func,
+        'worker' => $func,
         'quantity' => 3,
         'maxRestartTimes' => 3
     ))->start();

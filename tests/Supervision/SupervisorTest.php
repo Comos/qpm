@@ -44,9 +44,9 @@ class SupervisorTest extends \PHPUnit_Framework_TestCase {
 	}
 	public function testMultiGroupOneForOne_CreateKeeper() {
 		Supervisor::multiGroupOneForOne(array(
-			array('runnableCallback' => function() {exit;}),
-			array('runnableCallback' => function() {exit;}),
-			array('runnableCallback' => function() {exit;},'quantity' => 3, 'maxRestartTimes' => 3),
+			array('worker' => function() {exit;}),
+			array('worker' => function() {exit;}),
+			array('worker' => function() {exit;},'quantity' => 3, 'maxRestartTimes' => 3),
 		));
 	}
 	

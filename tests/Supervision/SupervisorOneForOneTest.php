@@ -30,7 +30,7 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
     public function testOneForOne_WithTimeout()
     {
         $conf = array(
-            'runnableCallback' => array($this, 'runnableCallback'),
+            'worker' => array($this, 'worker'),
             'quantity' => 3,
             'timeout' => 1,
             'maxRestartTimes' => 10,
@@ -47,7 +47,7 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, preg_match('/^b{13}$/', $data, $ms));
     }
 
-    public function runnableCallback()
+    public function worker()
     {
         \file_put_contents($this->logFile, 'b', \FILE_APPEND);
         \usleep(3*1000*1000);
@@ -57,7 +57,7 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
     public function testOneForOne_WithTimeout_WithOnTimeout()
     {
         $conf = array(
-            'runnableCallback' => array($this, 'runnableCallback'),
+            'worker' => array($this, 'worker'),
             'quantity' => 2,
             'timeout' => 1,
             'maxRestartTimes' => 10,

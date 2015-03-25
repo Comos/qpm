@@ -13,12 +13,11 @@ require __DIR__ . '/bootstrap.inc.php';
 
 use Comos\Qpm\Process\Process as Process;
 
+echo "The simple master-workers demo is running now.
+Ctrl+c to quit.\n";
+
 // Start Daemon
-Process::fork(function ()
-{
-    Process::current()->toBackground();
-    master(5);
-});
+master(5);
 
 /**
  * start a worker(child) Process.

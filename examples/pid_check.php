@@ -4,6 +4,7 @@
  */
 
 require __DIR__ . '/bootstrap.inc.php';
-use Comos\Qpm\pidfile\Manager;
+
+use Comos\Qpm\Pid\Manager;
 $man = new Manager(__DIR__ . '/pid_main.php.pid');
-echo $man->getProcess()->getPid();
+echo $man->getProcess()->getPid()."\n";

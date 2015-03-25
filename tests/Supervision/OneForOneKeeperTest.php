@@ -32,7 +32,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array(
-                    'factoryMethod' => function ()
+                    'factory' => function ()
                     {
                         return new OneForOneKeeperTest_Runnable();
                     }
@@ -40,7 +40,7 @@ class OneForOneKeeperTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 array(
-                    'runnableClass' => '\\' . __NAMESPACE__ . '\OneForOneKeeperTest_Runnable',
+                    'worker' => '\\' . __NAMESPACE__ . '\OneForOneKeeperTest_Runnable',
                 )
             )
         );

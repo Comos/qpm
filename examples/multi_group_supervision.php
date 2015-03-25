@@ -7,7 +7,6 @@ require __DIR__ . '/bootstrap.inc.php';
 
 $run1 = function ()
 {
-    echo "run1,pid:" . \posix_getpid() . "\n";
     while (true) {
         echo "---run1,pid:" . \posix_getpid() . "\n";
         sleep(3);
@@ -25,10 +24,10 @@ $run2 = function ()
 
 $configs = array(
     array(
-        'runnableCallback' => $run1
+        'worker' => $run1
     ),
     array(
-        'runnableCallback' => $run2,
+        'worker' => $run2,
         'quantity' => 2
     ),
 );

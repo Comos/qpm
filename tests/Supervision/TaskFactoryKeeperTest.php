@@ -55,7 +55,7 @@ class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
     {
         Supervisor::taskFactoryMode(array(
             'quantity' => 3,
-            'factoryMethod' => array(
+            'factory' => array(
                 $this,
                 'fetchTask'
             )
@@ -98,7 +98,7 @@ class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
         Supervisor::taskFactoryMode(array(
             'quantity' => 3,
             'timeout' => 1,
-            'factoryMethod' => array(
+            'factory' => array(
                 $this,
                 'fetchTask_WithSleeping'
             )
@@ -126,7 +126,7 @@ class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
         'quantity' => 3,
         'timeout' => 1,
         'onTimeout' => array($this, 'onTimeout'),
-        'factoryMethod' => array($this, 'fetchTask_WithSleeping'),
+        'factory' => array($this, 'fetchTask_WithSleeping'),
         ))->start();
         $content =\file_get_contents($this->logFile);
         $arr = array_filter(explode(',', $content), function ($i)

@@ -10,18 +10,18 @@ use Comos\Qpm\Process\Runnable;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	public function test__Construct() {
-		$data = array('factoryMethod' => function(){return null;});
+		$data = array('factory' => function(){return null;});
 		$c = new Config($data);
 		$this->assertEquals(1, $c->getQuantity());
 		$this->assertTrue($c->getKeeperRestartPolicy() instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreAllPolicy);
 
-		$data = array('runnableClass' => __CLASS__);
+		$data = array('worker' => __CLASS__);
 		new Config($data);
 	}
 
 	public function testGetQuantity() {
 		$func = function() {exit;};
-		$configData = array('runnableCallback'=>$func, 'quantity'=> 10);
+		$configData = array('worker'=>$func, 'quantity'=> 10);
 		$config = new Config($configData);
 		$this->assertEquals(10, $config->getQuantity());
 	}
@@ -31,7 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	 */
 	public function testTimeout($timeout, $expectedEnabled, $expectedTimeout) {
 	    $func = function() {exit;};
-	    $configData = array('runnableCallback'=>$func, 'quantity'=> 10);
+	    $configData = array('worker'=>$func, 'quantity'=> 10);
 	    if (!\is_null($timeout)) {
 	        $configData['timeout'] = $timeout;
 	    }
@@ -42,26 +42,32 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	
 	public function dataProvider_isTimeoutEnabled() {
 	    return array(
-	        array(1,true, 1),
-	        array(-1, false, -1),
-	        array(0, false, 0),
-	        array(null, false, -1),
+	        array(1,true, 1.0),
+	        array(-1, false, -1.0),
+	        array(0, false, 0.0),
+	        array(null, false, -1.0),
+	        array(1.1, true, 1.1),
+	        array(0.005, true, 0.005),
+	        array(0.0005, true, 0.0005),
+	        array('1', true, 1.0),
+	        array('1.5', true, 1.5),
+	        array('0.0005', true, 0.0005),
 	    );
 	}
 
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage maxRestartTimes must be integer and cannot be null
+	 * @expectedExceptionMessage maxRestartTimes must be integer and cannot be zero
 	 */
 	public function test__Construct_MaxRestartTimesIsNotNumeric() {
-		$data = array('factoryMethod' => function(){return null;}, 'maxRestartTimes' => 'x');
+		$data = array('factory' => function(){return null;}, 'maxRestartTimes' => 'x');
 		new Config($data);
 	}
 	/**
 	 * @expectedException Comos\Qpm\Supervision\OutOfPolicyException
 	 */
 	public function test__Construct_MaxRestartTimesIsStringButNumeric() {
-		$data = array('factoryMethod' => function(){return null;}, 'maxRestartTimes' => '1');
+		$data = array('factory' => function(){return null;}, 'maxRestartTimes' => '1');
 		$c = new Config($data);
 		$policy = $c->getKeeperRestartPolicy();
 		try {
@@ -78,39 +84,30 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	 * @expectedExceptionMessage quantity must be positive integer
 	 */
 	public function test__Construct_QuantityMustBePositiveInteger() {
-		$data = array('factoryMethod' => function(){return null;}, 'quantity' => -1);
-		new Config($data);
-	}
-
-	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage withInSeconds must be integer and cannot be null
-	 */
-	public function test__Construct_WithInSecondsMustBeIntegerAndCannotBeNull() {
-		$data = array('factoryMethod' => function(){return null;}, 'withInSeconds' => 3.1);
+		$data = array('factory' => function(){return null;}, 'quantity' => -1);
 		new Config($data);
 	}
 
 	/**
  	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage factoryMethod must be callable
+	 * @expectedExceptionMessage factory must be callable
 	 */
-	public function test__Construct_FactoryMethodIsNotCallable() {
-		$data = array('factoryMethod' => 'xx');
+	public function test__Construct_FactoryIsNotCallable() {
+		$data = array('factory' => 'xx');
 		new Config($data);
 	}
 	
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage runnableClass must be an implemention of Comos\Qpm\Process\Runnable
+	 * @expectedExceptionMessage worker must be instance of Comos\Qpm\Process\Runnable or callable
 	 */
-	public function test__Construct_RunnableClassIsNotRunnable() {
-		$data = array('runnableClass' => '\ArrayList');
+	public function test__Construct_WorkerIsNotRunnable() {
+		$data = array('worker' => '\ArrayList');
 		new Config($data);
 	}
 
-	public function testGetFactoryMethod() {
-		$data = array('runnableClass' => __CLASS__);
+	public function testGetFactory() {
+		$data = array('worker' => __CLASS__);
 		$config = new Config($data);
 		$method = $config->getFactoryMethod();
 		$this->assertTrue(\is_callable($method));
@@ -120,18 +117,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	}
 	/**
 	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage runnableCallback must be callable
+	 * @expectedExceptionMessage worker must be instance of Comos\Qpm\Process\Runnable or callable
 	 */
 
-	public function testGetFactoryMethod_InvalidRunnableCallback() {
+	public function testGetFactory_InvalidRunnableCallback() {
 		$callback = array();
-		$data = array('runnableCallback' => $callback);
+		$data = array('worker' => $callback);
 		$config = new Config($data);
 	}
 
-	public function testGetFactoryMethod_RunnableCallback() {
+	public function testGetFactory_RunnableCallback() {
 		$callback = function() {exit;};
-		$data = array('runnableCallback' => $callback);
+		$data = array('worker' => $callback);
 		$config = new Config($data);
 		$factoryMethod = $config->getFactoryMethod();
 		$this->assertTrue(\is_callable($factoryMethod));
@@ -142,7 +139,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	/**
 	 * @dataProvider processLauncherMissedDataProvider
 	 * @expectedException \InvalidArgumentException
-	 * @expectedExceptionMessage the way to start new process is required. optional ways: factoryMethod, runnableClass or runnableCallback
+	 * @expectedExceptionMessage factory or worker is required.
 	 */
 	public function test__Construct_MissWayToStartNewProcess($data) {
 		new Config($data);
@@ -150,9 +147,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable {
 	public function processLauncherMissedDataProvider() {
 		return array(
 			array('_x'=>1),
-			array('factoryMethod' => null),
-			array('runnableClass' => null),
-			array('runnableCallback' => null),
+			array('factory' => null),
+			array('worker' => null),
 		);
 	}
 }

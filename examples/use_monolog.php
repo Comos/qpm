@@ -9,8 +9,12 @@ use Monolog\Logger;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\Formatter\LineFormatter;
 
+$logFile = __FILE__.'.log';
+echo "Running... Use ctrl+c to quit.
+Execute 'tail $logFile' to see the lastest logs.\n";
+
 $logger = new Logger('qpm');
-$handler = new StreamHandler(__FILE__.'.log');
+$handler = new StreamHandler($logFile);
 new LineFormatter();
 $logger->pushHandler($handler);
 $formatter = new LineFormatter();
@@ -24,4 +28,4 @@ function doSomething()
   throw new Exception('xxx');
 }
 
-Comos\Qpm\Supervision\Supervisor::oneForOne(array('runnableCallback' =>  'doSomething'))->start();
+Comos\Qpm\Supervision\Supervisor::oneForOne(array('worker' =>  'doSomething'))->start();

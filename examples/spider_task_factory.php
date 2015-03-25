@@ -83,7 +83,7 @@ $input = isset($argv[1]) ? $argv[1] : __DIR__ . '/spider_task_factory_data.txt';
 $spiderTaskFactory = new SpiderTaskFactory($input);
 $config = array(
     // 指定taskFactory对象和工厂方法
-    'factoryMethod' => array(
+    'factory' => array(
         $spiderTaskFactory,
         'fetchTask'
     ),

@@ -41,7 +41,7 @@ class TaskFactoryKeeper {
 		try {
 			$target = \call_user_func($this->_config->getFactoryMethod());
 		} catch(StopSignal $ex) {
-			Logger::info('received stop signal');
+			Logger::debug('received stop signal');
 			throw $ex;
 		} catch (\Exception $ex) {
 			Logger::err($ex);
@@ -82,7 +82,7 @@ class TaskFactoryKeeper {
 				$this->_checkTimeout();
 			}
 		} catch (StopSignal $ex) {
-			Logger::info(__METHOD__.'() received a StopSignal:'.$ex);
+			Logger::info('Received a StopSignal');
 			$this->_waitToEnd();
 		}
 	}
@@ -130,6 +130,7 @@ class TaskFactoryKeeper {
 			if ($pid > 0) {
 				$this->_processExit($pid);
 			}
+			$this->_checkTimeout();
 			\usleep($this->_checkingInterval);
 		}
 

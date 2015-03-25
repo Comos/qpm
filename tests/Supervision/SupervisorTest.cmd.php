@@ -9,14 +9,14 @@ $file = $argv[1];
 $file1 = $argv[2];
 $configs = array(
     array(
-        'runnableCallback' => function () use($file)
+        'worker' => function () use($file)
         {
             \file_put_contents($file, 1, \FILE_APPEND);
             \usleep(1000 * 1000);
         }
     ),
     array(
-        'runnableCallback' => function () use($file1)
+        'worker' => function () use($file1)
         {
             \file_put_contents($file1, '2', \FILE_APPEND);
             \usleep(1000 * 500);

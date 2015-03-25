@@ -21,7 +21,7 @@ class Manager
 
     public function start()
     {
-        if (is_file($this->_file) && ! is_dir($this->_file)) {
+        if (\is_file($this->_file) && ! \is_dir($this->_file)) {
             $this->_checkAndGetPid();
         }
         $this->_updatePIDFile();
@@ -30,7 +30,7 @@ class Manager
     /**
      *
      * @return Process
-     * @throws \Comos\Qpm\pidfile\Exception
+     * @throws \Comos\Qpm\Pid\Exception
      */
     public function getProcess()
     {
@@ -38,14 +38,14 @@ class Manager
         if ($this->_processExists($pidFromFile)) {
             return Process::process($pidFromFile);
         }
-        throw new \Comos\Qpm\pidfile\Exception('process does not exist');
+        throw new \Comos\Qpm\Pid\Exception('process does not exist');
     }
 
     private function _getPidFromFile()
     {
         $pidInFile = @file_get_contents($this->_file);
         if ($pidInFile === false) {
-            throw new \Comos\Qpm\pidfile\Exception('fail to read file');
+            throw new \Comos\Qpm\Pid\Exception('fail to read file');
         }
         if (!\is_numeric($pidInFile)) {
             return null;
