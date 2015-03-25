@@ -50,7 +50,7 @@ class ProcessStub
     {
         $this->process = $process;
         $this->config = $config;
-        $this->startTime =\is_null($startTime) ?\microtime(true) : $startTime;
+        $this->startTime = is_null($startTime) ?\microtime(true) : $startTime;
         $this->groupId = $groupId;
     }
 

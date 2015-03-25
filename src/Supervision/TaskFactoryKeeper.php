@@ -12,8 +12,16 @@ class TaskFactoryKeeper {
 	const SLEEP_TIME_AFTER_ERROR = 1000000;
 	protected $_stoped = false;
 	protected $_currentProcess;
-	protected $_checkingInterval = 100000;
+	protected $_checkingInterval = 60000;
+	/**
+	 * 
+	 * @var ProcessStub[]
+	 */
 	protected $_children = array();
+	/**
+	 * 
+	 * @var Config
+	 */
 	protected $_config;
 	protected $_timeout = -1;//seconds, -1 means no timeout.
 	public function __construct($config) {
@@ -53,7 +61,7 @@ class TaskFactoryKeeper {
 		}
 		try {
 			$process = Process::fork($target);
-			$this->_children[$process->getPid()] = array($process, microtime(true));
+			$this->_children[$process->getPid()] = new ProcessStub($process, $this->_config);
 		} catch(\Exception $ex) {
 			Logger::err('exception', array('exception'=>$ex));
 			\usleep(self::SLEEP_TIME_AFTER_ERROR);
@@ -71,15 +79,16 @@ class TaskFactoryKeeper {
 				if (\count($this->_children) < $this->_config->getQuantity()) {
 					$this->_startOne();
 					continue;
-				} else {
-					\usleep($this->_checkingInterval);
 				}
+				
 				$status = null;
 				$pid = \pcntl_wait($status, \WNOHANG);
 				if ($pid > 0) {
 					$this->_processExit($pid);
+					continue;
 				}
 				$this->_checkTimeout();
+				\usleep($this->_checkingInterval);
 			}
 		} catch (StopSignal $ex) {
 			Logger::info('Received a StopSignal');
@@ -90,41 +99,22 @@ class TaskFactoryKeeper {
 		if ($this->_timeout<=0) {
 			return;
 		}
-		$t = \microtime(true);
-		foreach ($this->_children as $pid => $child) {
-			if ($t - $child[1] >= $this->_timeout)  {
-				try {
-					Logger::info("process[".$child[0]->getPid()."] will be killed because of timeout");
-					$this->_onTimeout($child[0]);
-					$this->_killedChildren[$pid] = $child;
-					unset($this->_children[$pid]);
-					$child[0]->kill();
-				} catch (\Exception $ex) {
-					Logger::err($ex);
-				}
-			}
+		foreach ($this->_children as $child) {
+		    $child->dealWithTimeout();
 		}
 	}
-	protected function _onTimeout($process) {
-	    Logger::info('process timeout');
-		if ($this->_onTimeoutCallback) {
-			$m = $this->_onTimeoutCallback;
-			\call_user_func($m, $process);
-		}
-	}
+	
 	protected function _processExit($pid) {
 		Logger::debug(__METHOD__."($pid)");
-		if (!isset($this->_children[$pid]) && !isset($this->_killedChildren[$pid])) {
+		if (!isset($this->_children[$pid])) {
 			Logger::err(__METHOD__.'() none managed childprocess exists');
 			return;
 		}
 		unset($this->_children[$pid]);
-		unset($this->_killedChildren[$pid]);
 	}
 	
 	protected function _waitToEnd() {	
 		while (count($this->_children)) {
-			$this->_checkTimeout();
 			$status = 0;
 			$pid = \pcntl_wait($status, \WNOHANG);
 			if ($pid > 0) {
@@ -143,7 +133,7 @@ class TaskFactoryKeeper {
 		$this->_stoped = true;
 		foreach ($this->_children as $child) {
 			try {
-				$child->kill();
+				$child->getProcess()->kill();
 			} catch (Exception $ex) {
 				Logger::err($ex);
 			}

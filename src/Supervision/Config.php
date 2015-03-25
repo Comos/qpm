@@ -27,34 +27,55 @@ class Config
     const DEFAULT_WITH_IN_SECONDS = - 1;
 
     const DEFAULT_TIMEOUT = - 1;
+    
+    const DEFAULT_TERM_SIG = \SIGKILL;
+    
+    const DEFAULT_TERM_TIMEOUT = -1;
 
-    protected $_factoryMethod;
+    protected $_factory;
 
     protected $_keeperRestartPolicy;
 
     protected $_timeout;
 
     protected $_onTimeout;
+    
+    protected $_termTimeout;
 
     public function __construct($config)
     {
-        $this->_initFactoryMethod($config);
+        $this->_initFactory($config);
         $this->_initQuantity($config);
         $this->_initTimeout($config);
         $this->_initKeeperRestartPolicy($config);
         $this->_initOnTimeout($config);
+        $this->_initTermTimeout($config);
     }
 
     public function getFactoryMethod()
     {
-        return $this->_factoryMethod;
+        return $this->_factory;
     }
 
     public function getKeeperRestartPolicy()
     {
         return clone ($this->_keeperRestartPolicy);
     }
-
+    
+    public function getTermTimeout()
+    {
+        
+    }
+    
+    public function getTermSig()
+    {
+        
+    }
+    
+    public function needKillAgain() {
+        
+    }
+    
     public function getQuantity()
     {
         return $this->_quantity;
@@ -81,6 +102,14 @@ class Config
     public function isTimeoutEnabled()
     {
         return $this->getTimeout() > 0;
+    }
+    
+    private function _initTermTimeout($config) {
+        
+    }
+    
+    private function _initTermSig($config) {
+        
     }
 
     private function _initKeeperRestartPolicy($config)
@@ -164,20 +193,20 @@ class Config
         $this->_onTimeout = $q;
     }
 
-    private function _initFactoryMethod($config)
+    private function _initFactory($config)
     {
         if (isset($config['factory'])) {
             if (! \is_callable($config['factory'])) {
                 throw new \InvalidArgumentException('factory must be callable');
             }
-            $this->_factoryMethod = $config['factory'];
+            $this->_factory = $config['factory'];
             return;
         }
         
         if (isset($config['worker'])) {
             $worker = $config['worker'];
             if (is_callable($worker)) {
-                $this->_factoryMethod = function () use($worker)
+                $this->_factory = function () use($worker)
                 {
                     return $worker;
                 };
@@ -185,7 +214,7 @@ class Config
                 return;
             }
             if (is_subclass_of($worker, '\Comos\Qpm\Process\Runnable')) {
-                $this->_factoryMethod = function () use($worker)
+                $this->_factory = function () use($worker)
                 {
                     $workerInst = new $worker();
                     return array(

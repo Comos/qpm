@@ -89,7 +89,7 @@ class TaskFactoryKeeperTest extends \PHPUnit_Framework_TestCase
             2,
             8,
             11
-        )) ? 1.1 : 0;
+        )) ? 1.3 : 0;
         return new TaskFactoryKeeperTest_Task($count, $this->logFile, $sleepTime);
     }
 
