@@ -11,14 +11,14 @@ if (is_file($autoloadFile)) {
 } else {
     spl_autoload_register(
 		function ($class) {
-			$prefix = 'qpm\\';
-		    $baseDir = __DIR__ . DIRECTORY_SEPARATOR. 'library'. DIRECTORY_SEPARATOR.'qpm';
+			$prefix = 'Comos\\Qpm\\';
+		    $baseDir = __DIR__ . DIRECTORY_SEPARATOR. 'src';
 		    $len = strlen($prefix);
 		    if (strncmp($prefix, $class, $len) !== 0) {
 		        return;
 		    }
-		    $relative_class = substr($class, $len);
-		    $file = $baseDir .DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $relative_class) . '.php';
+		    $relativeClass = substr($class, $len);
+		    $file = $baseDir .DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $relativeClass) . '.php';
 		    if (file_exists($file)) {
 		        require $file;
 		    }

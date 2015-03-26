@@ -2,6 +2,7 @@ vendor
 vendor/*
 examples/_spider/*
 composer.lock
+test.sh
 *.pid
 *.log
 *.log1

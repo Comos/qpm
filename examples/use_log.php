@@ -1,22 +1,29 @@
 <?php
-require __DIR__.'/bootstrap.inc.php';
+/**
+ * @author bigbigant
+ */
 
-qpm\log\Logger::useSimpleLogger(__FILE__.'-simple-logger.log');
+require __DIR__ . '/bootstrap.inc.php';
 
-$func = function() {
-	$i = 3;
-	while(--$i) {
-		sleep(1);
-	}
+$logFile = __FILE__ . '-simple-Logger.log';
+
+Comos\Qpm\Log\Logger::useSimpleLogger($logFile);
+
+echo "Execute 'tail $logFile' to see the lastest logs.\n";
+
+$func = function ()
+{
+    $i = 3;
+    while (-- $i) {
+        sleep(1);
+    }
 };
 try {
-	qpm\supervisor\Supervisor::oneForOne(
-		[
-			'runnableCallback' => $func,
-			'quantity' => 3,
- 			'maxRestartTimes' => 3,
-		]
-	)->start();
+    Comos\Qpm\Supervision\Supervisor::oneForOne(array(
+        'worker' => $func,
+        'quantity' => 3,
+        'maxRestartTimes' => 3
+    ))->start();
 } catch (Exception $ex) {
-	qpm\log\Logger::err($ex);
+    Comos\Qpm\Log\Logger::err($ex);
 }

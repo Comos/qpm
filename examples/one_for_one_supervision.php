@@ -1,14 +1,23 @@
 <?php
-require __DIR__.'/bootstrap.inc.php';
+/**
+ * @author bigbigant
+ */
 
-$run = function() {
-	$i = 10;
-	while($i--) {
-		echo "#$i PID:".posix_getpid()."\n";
-		sleep(1);
-	}
+require __DIR__ . '/bootstrap.inc.php';
+
+$run = function ()
+{
+    $i = 3;
+    while ($i --) {
+        echo "#$i PID:" . posix_getpid() . "\n";
+        sleep(1);
+    }
 };
 
-$config = ['runnableCallback'=>$run, 'quantity'=>3];
+$config = array(
+    'worker' => $run,
+    'quantity' => 3,
+    'maxRestartTimes' => 30,
+);
 
-qpm\supervisor\Supervisor::oneForOne($config)->start();
+Comos\Qpm\Supervision\Supervisor::oneForOne($config)->start();
