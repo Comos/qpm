@@ -53,4 +53,4 @@ composer require comes/qpm
 Notice: the lastest verison v1.0 is not compatible with v0.3.
 If you're using v0.3 or earlier versions, don't upgrade the library without refactoring and test.
 
-The other ways to get and use QPM, see [[Getting Started]].
+The other ways to get and use QPM, see [Getting Started](https://github.com/Comos/qpm/wiki/Getting-Started).
