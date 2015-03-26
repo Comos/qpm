@@ -23,3 +23,34 @@ QPM 运行时，必须使用autoloader，强烈建议使用Composer自带的auto
 通过[Wiki](https://github.com/Comos/qpm/wiki) 可以获取更多信息。
 
 QPM 最新版本是v1.0,与 之前的v0.3有较大的变化，使用时请留意兼容性问题，如果没有修改代码的计划，请不要从v3.0升级到v1.0。
+
+----------------------
+
+QPM’s full name is Quick Process Management Framework in PHP.
+
+PHP is so powerful in web development, that people always forget that it could be used to write strong CLI programs, even the daemon programs.
+The process management is just the core of daemon programming. QPM is such a library to simplify the process management.
+QPM is a CLI programming framework based *nix systems. It cannot be used in Windows and CGI environment.
+
+There're four main packages:
+
+* Process, the basic process management, includes the OO style encapsulation of pcntl_fork.
+* Supervision, the process supervisor, supports one-for-one mode, multi-group-one-for-one mode and task factory mode.
+* Pid manages the PID file to prevent the the daemon is started duplicately.
+* Log includes a file based simple Logger as the test purpose. The Logger supports PSR-3, so you can connect QPM to any implementer of PSR-3, such as Monolog.
+
+We provide rich usage samples in ‘examples’ directory.
+
+The library is covered by unit tests well, all the tests are in ‘tests’ directory.
+
+You can install QPM by composer:
+
+```
+
+composer require comes/qpm
+
+```
+Notice: the lastest verison v1.0 is not compatible with v0.3.
+If you're using v0.3 or earlier versions, don't upgrade the library without refactoring and test.
+
+The other ways to get and use QPM, see [[Getting Started]].
