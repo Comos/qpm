@@ -157,6 +157,7 @@ class ProcessStub
             return false;
         }
         try {
+            Logger::info("process[" . $this->getProcess()->getPid() . "] will be killed for termTimeout");
             $this->getProcess()->kill();
             $this->isDealedWithTermTimeout = true;
         } catch(\Exception $e) {
