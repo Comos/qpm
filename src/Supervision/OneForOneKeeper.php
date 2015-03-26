@@ -96,8 +96,8 @@ class OneForOneKeeper
                 $this->_processExit($pid);
                 continue;
             }
-            $this->_checkTimeout();
             \usleep(self::DEFAULT_RESTART_INTERVAL);
+            $this->_checkTimeout();
         }
     }
 
