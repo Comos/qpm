@@ -44,7 +44,8 @@ class SupervisorOneForOneTest extends \PHPUnit_Framework_TestCase
         }
         $data = \file_get_contents($this->logFile);
         $ms = null;
-        $this->assertEquals(1, preg_match('/^b{13}$/', $data, $ms));
+        echo $data."\n";
+        $this->assertRegExp('/^b{12,14}$/', $data, $ms);
     }
 
     public function worker()
