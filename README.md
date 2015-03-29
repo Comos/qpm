@@ -30,7 +30,7 @@ QPM’s full name is Quick Process Management Framework in PHP.
 
 PHP is so powerful in web development, that people always forget that it could be used to write strong CLI programs, even the daemon programs.
 The process management is just the core of daemon programming. QPM is such a library to simplify the process management.
-QPM is a CLI programming framework based *nix systems. It cannot be used in Windows and CGI environment.
+QPM is a CLI programming framework based on *nix systems. It cannot be used in Windows and CGI environment.
 
 There're four main packages:
 
@@ -47,7 +47,7 @@ You can install QPM by composer:
 
 ```
 
-composer require comes/qpm
+composer require comos/qpm
 
 ```
 Notice: the lastest verison v1.0 is not compatible with v0.3.
