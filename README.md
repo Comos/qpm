@@ -28,13 +28,13 @@ QPM 最新版本是v1.0,与 之前的v0.3有较大的变化，使用时请留意
 
 QPM’s full name is Quick Process Management Framework in PHP.
 
-PHP is so powerful in web development, that people always forget that it could be used to write strong CLI programs, even the daemon programs.
-The process management is just the core of daemon programming. QPM is such a library to simplify the process management.
+PHP is so powerful in web development, that people always forget that it could be used to write robust CLI programs, even daemon programs.
+Process management is a base of daemon programming. QPM is such a library to simplify process management.
 QPM is a CLI programming framework based on *nix systems. It cannot be used in Windows and CGI environment.
 
 There're four main packages:
 
-* Process, the basic process management, includes the OO style encapsulation of pcntl_fork.
+* Process, the basic process management, includes an OO style encapsulation of pcntl_fork.
 * Supervision, the process supervisor, supports one-for-one mode, multi-group-one-for-one mode and task factory mode.
 * Pid manages the PID file to prevent the the daemon is started duplicately.
 * Log includes a file based simple Logger as the test purpose. The Logger supports PSR-3, so you can connect QPM to any implementer of PSR-3, such as Monolog.
