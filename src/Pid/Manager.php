@@ -30,52 +30,70 @@ class Manager
     /**
      *
      * @return Process
-     * @throws \Comos\Qpm\Pid\Exception
+     * @throws Exception
      */
     public function getProcess()
     {
-        $pidFromFile = $this->_getPidFromFile();
-        if ($this->_processExists($pidFromFile)) {
-            return Process::process($pidFromFile);
+        $pidInfo = $this->_getPidInfoFromFile();
+        
+        if (!$pidInfo) {
+            throw new Exception('process does not exist');
         }
-        throw new \Comos\Qpm\Pid\Exception('process does not exist');
+        
+        if ($this->_processExists($pidInfo[0], $pidInfo[1])) {
+            return Process::process($pidInfo[0]);
+        }
+        throw new Exception('process does not exist');
     }
 
-    private function _getPidFromFile()
+    private function _getPidInfoFromFile()
     {
-        $pidInFile = @file_get_contents($this->_file);
-        if ($pidInFile === false) {
-            throw new \Comos\Qpm\Pid\Exception('fail to read file');
+        $pidInfoStr = @file_get_contents($this->_file);
+        if ($pidInfoStr === false) {
+            throw new Exception('fail to read pid file');
         }
-        if (!\is_numeric($pidInFile)) {
+        $pidInfo = @\json_decode($pidInfoStr);
+        if (!\is_array($pidInfo)) {
             return null;
         }
-        return $pidInFile;
+        return $pidInfo;
     }
 
     private function _checkAndGetPid()
     {
-        $pidInFile = $this->_getPidFromFile();
-        if ($this->_processExists($pidInFile)) {
-            throw new \Comos\Qpm\Pid\Exception('process exists, no need to start a new one');
+        $pidInfo = $this->_getPidInfoFromFile();
+        if ($this->_processExists($pidInfo[0], $pidInfo[1])) {
+            throw new Exception('process exists, no need to start a new one');
         }
-        return $pidInFile;
+        return $pidInfo[0];
     }
 
-    private function _processExists($pid)
+    private function _processExists($pid, $pname)
     {
         if (\is_null($pid)) {
             return false;
         }
-        return false !== @\pcntl_getpriority($pid);
+        $r = @\posix_kill($pid, 0);
+        if ($r === false) {
+            return false;
+        }
+        $cmd = 'ps x | grep ' . escapeshellarg($pid) . ' | grep ' . escapeshellarg($pname) . ' | grep -v "grep"';
+        $r = shell_exec($cmd);
+        if (empty($r)) {
+            return false;
+        }
+        return true;
     }
 
     private function _updatePIDFile()
     {
+        global $argv;
         $pid =\posix_getpid();
-        $r = @\file_put_contents($this->_file, $pid);
+        $pname = $argv[0];
+        $content = json_encode(array($pid, $pname));
+        $r = @\file_put_contents($this->_file, $content);
         if ($r === false) {
-            throw new \Comos\Qpm\Pid\Exception('fail to write pid file:' . $this->_file);
+            throw new Exception('fail to write pid file:' . $this->_file);
         }
     }
 }

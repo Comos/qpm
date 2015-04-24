@@ -14,7 +14,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $foo = function ()
         {
-           \usleep(200 * 1000);
+           \usleep(150 * 1000);
         };
         $child = Process\Process::fork($foo);
         $alive = $child->isAlive();
@@ -35,7 +35,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($child->getStatus()
             ->isStopped());
         
-        usleep(350 * 1000);
+        usleep(390 * 1000);
         $this->assertFalse($child->isAlive());
         $this->assertFalse($child->getStatus()
             ->isStopped());

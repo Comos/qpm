@@ -44,7 +44,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 		$man->start();
 		$r = file_get_contents($this->_pidFile);
 		$ms = null;
-		$this->assertEquals(1, preg_match('/^[0-9]+$/', $r, $ms));
+		$info = json_decode($r);
+		$this->assertTrue(is_numeric($info[0]));
+		$this->assertTrue(is_string($info[1]));
 	}
 	public function testStart() {
 		$man = new Manager($this->_pidFile);
