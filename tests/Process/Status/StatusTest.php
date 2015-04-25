@@ -47,7 +47,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             ->getStopSignal());
         $this->assertFalse($child->getStatus()
             ->isSignaled());
-        $this->assertEquals(1, $child->getStatus()
+        $this->assertEquals(0, $child->getStatus()
             ->getExitCode());
     }
 
