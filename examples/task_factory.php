@@ -76,7 +76,7 @@ class TaskFactory
 }
 $taskFactory = new TaskFactory();
 $config = array(
-    'factoryMethod' => array(
+    'factory' => array(
         $taskFactory,
         'fetchTask'
     ),
