@@ -13,6 +13,8 @@ class TaskFactoryKeeper {
 	protected $_stoped = false;
 	protected $_currentProcess;
 	protected $_checkingInterval = 60000;
+	protected $_factoryMethod = null;
+	protected $_factoryIterator = null;
 	/**
 	 * 
 	 * @var ProcessStub[]
@@ -29,6 +31,7 @@ class TaskFactoryKeeper {
 		$this->_config = $config;
 		$this->_timeout = $config->getTimeout();
 		$this->_onTimeoutCallback = $config->getOnTimeout();
+		$this->_factoryMethod = $config->getFactoryMethod();
 	}
 	
 	public function restart() {
@@ -48,6 +51,21 @@ class TaskFactoryKeeper {
 		$target = null;
 		try {
 			$target = \call_user_func($this->_config->getFactoryMethod());
+			if($this->_factoryIterator === null){
+				$res = \call_user_func($this->_config->getFactoryMethod());
+				if($res instanceof \Iterator){
+					$this->_factoryIterator = $res;
+				}else{
+					$target = $res;
+					$this->_factoryIterator = false;
+				}
+			}
+			if($this->_factoryIterator instanceof \Iterator){
+				$this->_factoryIterator->next();
+				$target = $this->_factoryIterator->current();
+			}else if($target === null){
+				$target = \call_user_func($this->_config->getFactoryMethod());
+			}
 		} catch(StopSignal $ex) {
 			Logger::debug('received stop signal');
 			throw $ex;
