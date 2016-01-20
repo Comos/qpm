@@ -50,17 +50,9 @@ class TaskFactory
 
     public function fetchTask()
     {
-        $task = $this->_doFetchTask();
-        if ($task) {
-            $this->_lastIsNull == false;
-            return $task;
-        }
-        if (! $this->_lastIsNull) {
-            $this->_lastIsNull = true;
-            return null;
-        }
-        sleep(1);
-        return null;
+       while($this->_index < count($this->_plan)){
+          yield $this->_doFetchTask();
+       }
     }
 
     public function _doFetchTask()
