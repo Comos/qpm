@@ -50,7 +50,6 @@ class TaskFactoryKeeper {
 		Logger::debug(__METHOD__.'()');
 		$target = null;
 		try {
-			$target = \call_user_func($this->_config->getFactoryMethod());
 			if($this->_factoryIterator === null){
 				$res = \call_user_func($this->_config->getFactoryMethod());
 				if($res instanceof \Iterator){
