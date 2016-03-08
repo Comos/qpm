@@ -33,8 +33,20 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         @unlink($this->_logFile);
     }
 
+    public function testGetParent_GetParentOfCurrent()
+    {
+        $current = Process::current();
+        $current1 = Process::process($current->getPid());
+        $parent = $current->getParent();
+        $parent1 = $current1->getParent();
 
-    public function testGetParent_ParentIsNull()
+        $this->assertInstanceOf(get_class($current), $parent);
+        $this->assertInternalType('int', $parent->getPid());
+        $this->assertEquals($parent1->getPid(), $parent->getPid());
+        $this->assertGreaterThan(0, $parent->getPid());
+    }
+
+    public function testGetParent()
     {
         $process = Process::fork(function(){usleep(1000);});
         $parent = $process->getParent();
