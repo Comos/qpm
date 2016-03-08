@@ -5,6 +5,8 @@
 
 namespace Comos\Qpm\Process;
 
+use Comos\Qpm\Pid\Exception;
+
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -147,6 +149,21 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $t1 = microtime(true);
         $this->assertEquals($wpid, $child->getPid());
         $this->assertLessThan(0.05, $t1 - $t0);
+    }
+
+    public function testSendSignal_Failed() {
+        $child = Process::fork(function ()
+        {
+            \usleep(0.1 * 1000 * 1000);
+        });
+        $errorSignal = 1001;
+        try {
+            $child->sendSignal($errorSignal);
+        }catch (\Exception $ex) {
+            $this->assertTrue($ex instanceof FailToSendSignalException );
+        }
+        \pcntl_wait($st);
+
     }
 }
 

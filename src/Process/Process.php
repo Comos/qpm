@@ -28,8 +28,8 @@ class Process
     private $_parentProcessId;
 
     /**
-     *
-     * @param int $pid            
+     * @param $pid
+     * @param null $parentProcessId
      */
     protected function __construct($pid, $parentProcessId = null)
     {
@@ -38,8 +38,8 @@ class Process
     }
 
     /**
-     * Factory method to create a new \Comos\Qpm\Process\Process instance
-     *
+     * factory method, to produce an instance of Process
+     * @param $pid
      * @return Process
      */
     public static function process($pid)
@@ -136,28 +136,15 @@ class Process
     {
         $result =\posix_kill($this->_pid, $sig);
         if (false === $result) {
-            throw new FailToSendSignalException('kill ' . $sig . ' ' . $this->_pid);
+            throw new FailToSendSignalException('fail to send signal ' . $sig . ' to process ' . $this->_pid);
         }
         return $result;
     }
 
     /**
-     *
-     * @deprecated will be alternated sendSignal
-     * @param integer $sig            
-     * @return boolean
-     */
-    public function doKill($sig)
-    {
-        return $this->sendSignal($sig);
-    }
-
-    /**
-     * to fork to create a process and run $target in there
-     *
-     * @param
-     *            Runnable | \callable $target
+     * @param Runnable|Callable $target
      * @return ChildProcess
+     * @throws FailToForkException
      * @throws \InvalidArgumentException
      */
     public static function fork($target)
