@@ -31,6 +31,15 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         @unlink($this->_logFile);
     }
 
+
+    public function testGetParent_ParentIsNull()
+    {
+        $process = Process::fork(function(){usleep(1000);});
+        $parent = $process->getParent();
+        $this->assertEquals($parent->getPid(), Process::current()->getPid());
+        pcntl_wait($st);
+    }
+
     public function testIsCurrent()
     {
         $this->assertTrue(Process::current()->isCurrent());
@@ -114,6 +123,15 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $st = 0;
         $wpid =\pcntl_wait($st);
         $this->assertEquals('no', \file_get_contents($this->_logFile));
+    }
+
+    public function testTerminate()
+    {
+        $child = Process::fork(function () {\usleep(1000);});
+        $child->terminate();
+        $pid =\pcntl_wait($st);
+        $this->assertEquals(\SIGTERM, \pcntl_wtermsig($st));
+        $this->assertEquals($pid, $child->getPid());
     }
 
     public function testKill()

@@ -62,7 +62,7 @@ class Process
 
     /**
      *
-     * @return Comos\Qpm\Process\Process returns null on failure
+     * @return Process returns null on failure
      *         It cannot be realtime in some cases.
      *         e.g.
      *         $child = Process::current()->folkByCallable($fun);
