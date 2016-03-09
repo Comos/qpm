@@ -5,7 +5,7 @@
 
 namespace Comos\Qpm\Pid;
 
-use Comos\Qpm\Pid\Manager;
+use \Comos\Qpm\Process\Process;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase {
 	protected $_pidFile;
@@ -58,16 +58,30 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \Comos\Qpm\Pid\Exception
 	 * @expectedExceptionMessage process exists, no need to start a new one 
 	 */
-	public function testStart_Start2TimesWithOnePidFile() {
+	public function testStart_Start2TimesWithOnePidFile()
+    {
 		$man = new Manager($this->_pidFile);
 		$man1 = new Manager($this->_pidFile);
 		$man->start();
 		$man1->start();
 
 	}
-	public function testStart_Start2ProcessWithOnePidFile() {
+
+    /**
+     * @expectedException \Comos\Qpm\Pid\Exception
+     * @expectedExceptionMessage fail to read pid file
+     */
+    public function testGetProcess_PidFileDoesNotExist_And_NotStart()
+    {
+        $man = new Manager('file_not_exist');
+        $man->getProcess();
+    }
+
+
+	public function testStart_Start2ProcessWithOnePidFile()
+    {
 		$pidfile = $this->_pidFile;
-		$process = \Comos\Qpm\Process\Process::fork(function() use($pidfile) {
+		$process = Process::fork(function() use($pidfile) {
 			$man = new Manager($pidfile);
 			$man->start();
 			usleep(200*1000);

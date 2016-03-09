@@ -5,8 +5,6 @@
 
 namespace Comos\Qpm\Process;
 
-use Comos\Qpm\Pid\Exception;
-
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -52,6 +50,17 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $parent = $process->getParent();
         $this->assertEquals($parent->getPid(), Process::current()->getPid());
         pcntl_wait($st);
+    }
+
+    public function testGetParent_ProcessInBackground()
+    {
+        $process = Process::fork(function(){
+            Process::toBackground();
+            usleep(5000);
+        });
+        usleep(2000);
+        $parent = Process::process($process->getPid())->getParent();
+        $this->assertNull($parent);
     }
 
     public function testIsCurrent()
@@ -163,7 +172,8 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertLessThan(0.05, $t1 - $t0);
     }
 
-    public function testSendSignal_Failed() {
+    public function testSendSignal_Failed()
+    {
         $child = Process::fork(function ()
         {
             \usleep(0.1 * 1000 * 1000);
@@ -175,11 +185,10 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($ex instanceof FailToSendSignalException );
         }
         \pcntl_wait($st);
-
     }
 }
 
-class ProcessTest_Runnable implements \Comos\Qpm\Process\Runnable
+class ProcessTest_Runnable implements Runnable
 {
 
     public function __construct($file)
