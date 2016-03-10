@@ -20,7 +20,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable
         );
         $c = new Config($data);
         $this->assertEquals(1, $c->getQuantity());
-        $this->assertTrue($c->getKeeperRestartPolicy() instanceof \Comos\Qpm\Supervision\KeeperRestartIgnoreAllPolicy);
+        $this->assertTrue($c->getKeeperRestartPolicy() instanceof KeeperRestartIgnoreAllPolicy);
         
         $data = array(
             'worker' => __CLASS__
@@ -159,7 +159,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage quantity must be positive integer
+     * @expectedExceptionMessage quantity must be a positive integer
      */
     public function test__Construct_QuantityMustBePositiveInteger()
     {
@@ -187,7 +187,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage worker must be instance of Comos\Qpm\Process\Runnable or callable
+     * @expectedExceptionMessage worker must be an instance of Comos\Qpm\Process\Runnable or callable
      */
     public function test__Construct_WorkerIsNotRunnable()
     {
@@ -212,7 +212,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage worker must be instance of Comos\Qpm\Process\Runnable or callable
+     * @expectedExceptionMessage worker must be an instance of Comos\Qpm\Process\Runnable or callable
      */
     public function testGetFactory_InvalidRunnableCallback()
     {
@@ -270,7 +270,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase implements Runnable
     {
         $config = new Config(array('termTimeout'=>$termTimeout, 'worker'=>function() {}));
         $this->assertEquals($expectedTermTimeout, $config->getTermTimeout());
-        $this->assertEquals($expectedIsKillOnTimeout, $config->isKillOnTimeout());
+        $this->assertEquals($expectedIsKillOnTimeout, $config->isKillingOnTimeoutEnabled());
     }
     
     public function dataProviderOfTermTimeout()

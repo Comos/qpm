@@ -4,12 +4,11 @@
  */
 namespace Comos\Qpm\Supervision;
 
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
 /**
  *
  * @example > new Config([
- *          > 'factoryMethod' => function() {...;},//or 'runnableClass' => 'ClassName'
- *          > //factoryMethod or runnableClass or worker is required
+ *          > 'factory' => function() {...;},//or 'worker' => 'ClassName'
+ *          > //factory or  worker is required
  *          > 'quantity' => 3,//how many process to keep,default is 1
  *          > 'maxRestartTimes' => 3,//default is -1,-1 means ignore it
  *          > 'withInSeconds' => 10,//default is -1,means ignore it
@@ -42,6 +41,20 @@ class Config
     
     protected $_termTimeout;
 
+    protected $_quantity;
+
+    /**
+     * @todo to complete the PHPDoc
+     * @param array $config {
+     *  @var \Callable factory
+     *  @var \Callable|String worker  a callback to run in child processes or a name of Class which implements QPM\Process|Runnable
+     *  @var int quantity
+     *  @var int maxRestartTimes
+     *  @var withInSeconds
+     *  @var timeout
+     *  @var termTimeout
+     * }
+     */
     public function __construct($config)
     {
         $this->_initFactory($config);
@@ -71,7 +84,7 @@ class Config
     /**
      * @return boolean
      */
-    public function isKillOnTimeout()
+    public function isKillingOnTimeoutEnabled()
     {
         return $this->_termTimeout <= 0.0;
     }
@@ -171,7 +184,7 @@ class Config
     {
         $q = self::_fetchIntValue($config, "quantity", self::DEFAULT_QUANTITY);
         if (! is_int($q) || $q < 1) {
-            throw new \InvalidArgumentException('quantity must be positive integer');
+            throw new \InvalidArgumentException('quantity must be a positive integer');
         }
         $this->_quantity = $q;
     }
@@ -225,8 +238,8 @@ class Config
                 };
                 return ;
             }
-            throw new \InvalidArgumentException('worker must be instance of Comos\Qpm\Process\Runnable or callable');
+            throw new \InvalidArgumentException('worker must be an instance of Comos\Qpm\Process\Runnable or callable');
         }
-        throw new \InvalidArgumentException('factory or worker is required.');
+        throw new \InvalidArgumentException('a factory or worker is required.');
     }
 }

@@ -9,11 +9,13 @@ use Comos\Qpm\Log\Logger;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase {
 	protected $_logFile; 
-	protected function setUp() {
+	protected function setUp()
+    {
 		parent::setUp();
 		$this->_logFile = __FILE__.'.log';
 		file_put_contents($this->_logFile, '');
 	}
+
 	public function testUseNullLogger() {
 		Logger::useNullLogger();
 		Logger::info("abc");
@@ -24,7 +26,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase {
 		}
 		$this->assertEquals(0, filesize($this->_logFile));
 	}
-	public function testUseSimpleLogger() {
+
+	public function testUseSimpleLogger()
+    {
 		Logger::useSimpleLogger($this->_logFile);
 		Logger::info('xxinfoxx');
 		Logger::err('xxerrxx');
@@ -39,6 +43,17 @@ class LoggerTest extends \PHPUnit_Framework_TestCase {
 		$contents1 = file_get_contents($this->_logFile);
 		$this->assertEquals($contents1, $contents);
 	}
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Logger Impl must be instance of Psr\Log\LoggerInterface
+     */
+    public function testSetLoggerImpl()
+    {
+        $obj = new \ArrayObject();
+        Logger::setLoggerImpl($obj);
+    }
+
 	protected function tearDown() {
 		Logger::useNullLogger();
 		@unlink($this->_logFile);

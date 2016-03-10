@@ -123,7 +123,7 @@ class ProcessStub
         }
         
         if ($this->isDealedWithTimeout) {
-            if (!$this->config->isKillOnTimeout()) {
+            if (!$this->config->isKillingOnTimeoutEnabled()) {
                 $this->dealWithTermTimeout();
             }
             return false;
@@ -134,7 +134,7 @@ class ProcessStub
         Logger::info("process[" . $this->getProcess()->getPid() . "] will be terminated for timeout");
         $this->invokeOnTimeout();
         try {
-            if ($this->config->isKillOnTimeout()) {
+            if ($this->config->isKillingOnTimeoutEnabled()) {
                 $this->getProcess()->kill();
             } else {
                 $this->termTime = microtime(true);

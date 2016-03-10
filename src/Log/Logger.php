@@ -30,10 +30,11 @@ class Logger {
 	/**
 	 * 
 	 * @param \Psr\Log\LoggerInterface $impl
+     * @throws \InvalidArgumentException
 	 */
 	public static function setLoggerImpl($impl) {
 		if (!$impl instanceof \Psr\Log\LoggerInterface) {
-			throw new \InvalidArgumentException('Logger Impl must be instance of Psr\Log\Test\LoggerInterface');
+			throw new \InvalidArgumentException('Logger Impl must be instance of Psr\Log\LoggerInterface');
 		}
 		self::$_impl = $impl;
 	}
