@@ -38,7 +38,7 @@ class Supervisor {
 		return self::_oneForOne($cs);
 	}
 	/**
-	 * @return Comos\Qpm\Supervision\Supervisor
+	 * @return Supervisor
 	 */
 	private static function _oneForOne($configs) {
 		return new self(new OneForOneKeeper($configs));
