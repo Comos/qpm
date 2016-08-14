@@ -22,7 +22,7 @@ class Supervisor {
 		return self::_oneForOne($configs);
 	}
 	/**
-	 * @return Comos\Qpm\Supervision\Supervisor
+	 * @return Supervisor
 	 */
 	public static function multiGroupOneForOne($configs) {
 		if (!is_array($configs) and !($configs instanceof \Iterator)) {
